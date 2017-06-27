@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/wxmpv1_2forIDEA_war_exploded/WEB-INF/lib/json-lib-2.1-jdk15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/wxmpv1_2forIDEA_war_exploded/WEB-INF/lib/org.json.JSONObject.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/wxmpv1_2forIDEA_war_exploded/WEB-INF/lib/spymemcached-2.10.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/wxmpv1_2forIDEA_war_exploded/WEB-INF/lib/javax.json.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/wxmpv1_2forIDEA_war_exploded/WEB-INF/lib/javolution-5.4.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/wxmpv1_2forIDEA_war_exploded/WEB-INF/lib/gson-2.6.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
