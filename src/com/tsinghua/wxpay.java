@@ -113,7 +113,7 @@ public class wxpay extends HttpServlet {
         sb.append("<nonce_str>" + nonce_str + "</nonce_str>");
         sb.append("<notify_url>" + notify_url + "</notify_url>");
         sb.append("<out_trade_no>" + out_trade_no + "</out_trade_no>");
-        sb.append("<spbill_create_ip>" + "58.212.1.18" + "</spbill_create_ip>");
+        sb.append("<spbill_create_ip>" + spbill_create_ip + "</spbill_create_ip>");
         sb.append("<total_fee>" + total_fee + "</total_fee>");
         sb.append("<trade_type>" + trade_type + "</trade_type>");
         sb.append("<device_info>" + device_info + "</device_info>");
@@ -158,7 +158,7 @@ public class wxpay extends HttpServlet {
             String prepay_id = prepayEle.getTextTrim();
             System.out.println("=====预付订单号" + prepay_id);
 
-            //convert string to map and send to response
+            //convert string to map and send to r esponse
             Map<String,String> map = new HashMap<String ,String >();
             String timeStamp = timestamp;
             String nonceStr = nonce_str;
