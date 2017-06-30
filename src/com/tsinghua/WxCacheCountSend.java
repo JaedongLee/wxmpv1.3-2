@@ -41,30 +41,26 @@ public class WxCacheCountSend extends HttpServlet {
                 "&noncestr=" + nonce_str +
                 "&timestamp=" + timestamp +
                 "&url=" + url;
-        System.out.println(string1);
+        System.out.println("=====JS-API签名字符串为：" + string1);
 
-        try
-        {
+        try {
             MessageDigest crypt = MessageDigest.getInstance("SHA-1");
             crypt.reset();
             crypt.update(string1.getBytes("UTF-8"));
             signature = byteToHex(crypt.digest());
         }
-        catch (NoSuchAlgorithmException e)
-        {
+        catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         catch (UnsupportedEncodingException e)
         {
             e.printStackTrace();
         }
-
         ret.put("url",url);
         ret.put("jsapi_ticket",jsapi_ticket);
         ret.put("nonceStr",nonce_str);
         ret.put("timestamp",timestamp);
         ret.put("signature",signature);
-
         return ret;
     }
 
@@ -87,15 +83,12 @@ public class WxCacheCountSend extends HttpServlet {
         return Long.toString(System.currentTimeMillis() / 1000);
     }
 
-    /*    mineTest mt = new mineTest();
-        public String jsapi_ticket = mt.ticket1;*/
     static String token;
     static int tokenExpiresIn;
     static String ticket;
     static int ticketExpiresIn;
 
     public String PutToken(String token){
-		/*System.out.println(token);*/
         return token;
     }
     public int PutTokenExpiresIn(int tokenExpiresIn){
@@ -103,14 +96,14 @@ public class WxCacheCountSend extends HttpServlet {
         return tokenExpiresIn;
     }
     public String PutTicket(String ticket){
-        System.out.println(ticket + "/n");
+        System.out.println("=====获取的来自wxgettokenandticket的ticket为：" + ticket);
         this.ticket = ticket;
 
 		/*System.out.println(ticket);*/
         return ticket;
     }
     public int PutTicketExpiresIn(int ticketExpiresIn){
-        System.out.println(ticketExpiresIn);
+        System.out.println("=====获取的来自wxgettokenandticket的ticket的有效时间为：" + ticketExpiresIn);
         return ticketExpiresIn;
     }
 

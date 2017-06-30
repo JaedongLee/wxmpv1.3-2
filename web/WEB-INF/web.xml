@@ -30,4 +30,13 @@
         <servlet-name>wxconnect</servlet-name>
         <url-pattern>/wxconnect</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>wxpay</servlet-name>
+        <servlet-class>com.tsinghua.wxpay</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wxpay</servlet-name>
+        <url-pattern>/wxpay</url-pattern>
+    </servlet-mapping>
+
 </web-app>
