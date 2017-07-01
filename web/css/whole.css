@@ -1,0 +1,235 @@
+body {
+    font-family: Microsoft YaHei;
+}
+
+body.subIntTem {
+    color: #e67817;
+}
+
+body.subIntTem a {
+    color: #e67817;
+    text-decoration: underline;
+}
+
+body.signup {
+    background-image: url(../images/13/bgimg.png);
+    background-size: cover;
+    color: #e67817
+}
+
+.text-center {
+    margin: 0 auto;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    font-weight: 500;
+}
+
+.list-unstyled {
+    margin-bottom: 0;
+}
+
+.manage-course-head {
+    background-color: #e67817;
+    color: #fff;
+}
+
+.signup-form {
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+    margin-top: 2.2em;
+}
+
+.signup-form>ul {
+    margin-bottom: 12.3em;
+}
+
+.signup-form ul li label {
+    width: 30%
+}
+
+.signup-form ul li input {
+    width: 67%;
+    display: inline-block;
+}
+
+.signup-form button {
+    border-color: #e67817;
+    width: 12em;
+    color: #e67817;
+}
+
+.content ul {
+}
+
+.content li {
+    margin-bottom: 1em;
+    margin-top: 1em;
+    position: relative;
+
+}
+
+.content li :first-child {
+    /*margin-top: 1em;*/
+}
+
+.content li a {
+}
+
+.content li img {
+/*    background-image: url(../images/content/1.png);
+    background-size: 100%;
+    height: 100%;*/
+    width: 100%;
+}
+
+.content ul li p.content-title {
+    position: absolute;
+    top: 0.4em;
+    left: 0.4em;
+    background-color: #e67817;
+    border-radius: 0.3em;
+    color: #fff;
+    font-size: 12px;
+}
+
+.content-price {
+    position: absolute;
+    color: #fff;
+    font-size: 12px;
+    left: 0.4em;
+    top: 8.2em;
+    width: 100%;
+}
+
+.content-price .pull-right {
+    margin-right: 0.8em;
+}
+
+.interface-title-container {
+    position: relative;
+}
+
+.interface-title-container>img {
+    width: 100%;
+}
+
+.interface-title ,.interface-subtitle {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+}
+
+.interface-title {
+    top: 2em;
+}
+
+.interface-subtitle {
+    top: 6.5em;
+}
+
+.interface-subtitle strong {
+    background-color: #e67817;
+    border-radius: 0.3em;
+}
+
+.interface-border {
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    border: 0.2em solid #e67817;
+    border-radius: 0.4em;
+    font-weight: 600;
+    color: #4d4d4d;
+}
+
+.interface-border h4 {
+    text-align: center;
+}
+
+.interface>ul {
+    margin-top: 1em;
+    font-weight: 600;
+}
+
+.interface>ul>h4 {
+    background-color: #e67817;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    font-weight: 600;
+    color: #fff;
+}
+
+.interface li>p {
+    display: inline-block;
+}
+
+.interface li div :first-child {
+
+}
+
+.interface .glyphicon {
+    font-size: 22px;
+}
+
+.interface li div p {
+    display: inline-block;
+}
+
+.subIntTem h4 {
+    height: 1em;
+    background-color: #eeeeee;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    line-height: 0em;
+}
+
+.subIntTem>ul>li {
+}
+
+.subIntTem>ul>li>div {
+    padding: 1em 0;
+    margin-left: 1em;
+    margin-right: 1em;
+    border-bottom: 2px solid #eeeeee;
+}
+
+.subSubInt .interface-title {
+    color: #fff;
+}
+
+.subSubInt .interface-subtitle {
+    top: 5em;
+    color: #fff;
+    background-color: transparent;
+}
+
+.subSubInt-1>h4 {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.subSubInt-1>p {
+    line-height: 2em;
+}
+
+.subSubInt-2 {
+    background-color: #e67817;
+    color: #fff;
+}
+
+.subSubInt-2 span {
+    font-size: 28px;
+    line-height: 0.7em;
+}
+
+.subSubInt-text {
+    line-height: 2em;
+    margin-top: 1em;
+}
+
+.subSubInt-img {
+    margin-top: 1em;
+}
