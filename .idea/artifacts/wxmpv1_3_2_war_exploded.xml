@@ -9,6 +9,7 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="commons-codec-1.5" />
           <element id="library" level="project" name="dom4j-xml" />
+          <element id="library" level="project" name="sqljdbc42" />
         </element>
         <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/web.xml" />
         <element id="file-copy" path="$PROJECT_DIR$/web/MP_verify_Glu4uPicg5cXOyPV.txt" />

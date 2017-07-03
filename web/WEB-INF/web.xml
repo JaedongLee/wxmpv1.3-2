@@ -38,5 +38,13 @@
         <servlet-name>wxpay</servlet-name>
         <url-pattern>/wxpay</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>wxdatabase</servlet-name>
+        <servlet-class>com.tsinghua.wxdatabase</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wxdatabase</servlet-name>
+        <url-pattern>/wxdatabase</url-pattern>
+    </servlet-mapping>
 
 </web-app>

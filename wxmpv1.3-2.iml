@@ -32,5 +32,6 @@
     <orderEntry type="library" name="Jars" level="project" />
     <orderEntry type="library" name="commons-codec-1.5" level="project" />
     <orderEntry type="library" name="dom4j-xml" level="project" />
+    <orderEntry type="library" name="sqljdbc42" level="project" />
   </component>
 </module>
