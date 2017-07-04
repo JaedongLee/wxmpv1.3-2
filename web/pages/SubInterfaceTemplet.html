@@ -34,9 +34,11 @@
             <div>
                 <p>Python初识</p>
                 <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
+<!--
                 <audio class="audio" src="../audio/2017-06-16 〖管理解析〗KPI细说——计划准确率.mp3">
                     请使用微信内浏览器加载页面
                 </audio>
+-->
             </div>
         </li>
         <li class="container">
@@ -45,9 +47,11 @@
             <div>
                 <p>Python语法基础</p>
                 <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
+<!--
                 <audio class="audio" src="../audio/2017－06－15　应用管理学·管理者概论·管理都是一群什么样的人.mp3">
                     请使用微信内浏览器加载页面
                 </audio>
+-->
             </div>
         </li>
         <li class="container">
@@ -56,9 +60,11 @@
             <div>
                 <p>Python控制流</p>
                 <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
+<!--
                 <audio class="audio" src="../audio/2017－06－15 　应用管理学·管理者概论·为什么建议经理们都学学《应用管理学》.mp3">
                     请使用微信内浏览器加载页面
                 </audio>
+-->
             </div>
         </li>
     </ul>
@@ -174,10 +180,11 @@
                     paySign: jsary2.paySign, // 支付签名
                     success: function () {
                         // 支付成功后的回调函数
-                        alert('支付成功')
+                        alert('支付成功');
+                        window.location.href="./SubSubInterfaceTemplet.html";
                     },
                     cancel: function () {
-                        alert("支付取消")
+                        alert("支付取消");
                     },
                     fail: function () {
                         alert("支付失败")
@@ -195,14 +202,14 @@
                 timestamp: jsary2.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                 nonceStr: jsary2.nonceStr, // 支付签名随机串，不长于 32 位
                 package: jsary2.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                paySign: jsary2.paySign, // 支付签名
+                signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'paySign: jsary2.paySign, // 支付签名
                 success: function () {
                     // 支付成功后的回调函数
-                    alert('支付成功')
+                    alert('支付成功');
+                    window.location.href="./SubSubInterfaceTemplet.html";
                 },
                 cancel: function () {
-                    alert("支付取消")
+                    alert("支付取消");
                 },
                 fail: function () {
                     alert("支付失败")

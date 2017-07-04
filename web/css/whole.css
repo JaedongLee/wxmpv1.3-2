@@ -169,7 +169,7 @@ body.signup {
 }
 
 .interface .glyphicon {
-    font-size: 22px;
+    font-size: 14px;
 }
 
 .interface li div p {
@@ -232,4 +232,18 @@ body.signup {
 
 .subSubInt-img {
     margin-top: 1em;
+}
+
+.study-help>.container {
+    margin-top: 1em;
+    line-height: 1.8em;
+}
+
+.study-help>.dropdown {
+    position: fixed;
+    margin-top: -0.5em;
+}
+
+.study-help h4 {
+    margin-bottom: 0.5em;
 }
