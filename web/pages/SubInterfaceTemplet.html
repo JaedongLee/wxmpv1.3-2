@@ -6,22 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../js/jquery-3.2.1.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <script src="../js/whole.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/whole.css">
-    <title>收听总界面</title>
+    <title>收听子目录</title>
 </head>
-<body class="interface" onload="appendEle()">
+<body class="interface">
     <div class="interface-title-container">
         <img src="../images/interface/1.png" alt="1">
         <h3 class="interface-title"><strong>专题讲座-老板课</strong></h3>
-        <h4 class="interface-subtitle"><strong>管理升级与创业团队转型</strong></h4>
+        <h4 class="interface-subtitle"><strong>Python初级教程</strong></h4>
     </div>
     <div class="container interface-border">
         <h4 class="">课程简介</h4>
         <p>
-            &nbsp&nbsp&nbsp&nbsp《管理升级与创业团队转型》是为企业最高决策者提供的操作性指导课程，帮助
-            企业掌握转型的时机、方案和风险控制措施......
+            &nbsp&nbsp&nbsp&nbsp本套课程主要讲解 Python 的基础知识，让学员能够建立 Python 编程的初步印象，
+            为今后学习 Python 打下坚实基础。本套课程适合 Python 编程入门者学习，能够让学生快速走进 Python
+             开发的世界......
         </p>
     </div>
     <ul class="list-unstyled">
@@ -30,8 +32,8 @@
             <p>2017-06-25</p>
             <p class="pull-right">【未收听】</p>
             <div>
-                <p>第12课 创业团队转型规则</p>
-                <span class="pull-right glyphicon glyphicon-volume-down" onclick="audioplay()"></span>
+                <p>Python初识</p>
+                <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
                 <audio class="audio" src="../audio/2017-06-16 〖管理解析〗KPI细说——计划准确率.mp3">
                     请使用微信内浏览器加载页面
                 </audio>
@@ -41,9 +43,9 @@
             <p>2017-06-28</p>
             <p class="pull-right">【未收听】</p>
             <div>
-                <p>第12课 管理转型的实施准备</p>
-                <span class="pull-right glyphicon glyphicon-volume-down" onclick="audioplay()"></span>
-                <audio class="audio" src="../audio/2017-06-16 〖管理解析〗KPI细说——计划准确率.mp3">
+                <p>Python语法基础</p>
+                <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
+                <audio class="audio" src="../audio/2017－06－15　应用管理学·管理者概论·管理都是一群什么样的人.mp3">
                     请使用微信内浏览器加载页面
                 </audio>
             </div>
@@ -52,9 +54,9 @@
             <p>2017-06-28</p>
             <p class="pull-right">【未收听】</p>
             <div>
-                <p>第12课 管理转型的实施准备</p>
-                <span class="pull-right glyphicon glyphicon-volume-down" onclick="audioplay()"></span>
-                <audio class="audio" src="../audio/2017-06-16 〖管理解析〗KPI细说——计划准确率.mp3">
+                <p>Python控制流</p>
+                <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
+                <audio class="audio" src="../audio/2017－06－15 　应用管理学·管理者概论·为什么建议经理们都学学《应用管理学》.mp3">
                     请使用微信内浏览器加载页面
                 </audio>
             </div>
@@ -62,22 +64,152 @@
     </ul>
 </body>
 <script type="text/javascript">
-    function appendEle() {
+    // function appendEle() {
+    //     $.ajax({
+    //         url: "../wxdatabase",
+    //         type: "post",
+    //         dataType: "json",
+    //         success: function (data) {
+    //             var a = $("<li class='container'><p></p><p class='pull-right'></p><div><p></p><span class='pull-right glyphicon glyphicon-volume-down' onclick='audioplay()'></span><audio src='' class='audio'>请使用微信内浏览器加载页面</audio></div></li>")
+    //             $("ul").append(a);
+    //             var obj = JSON.stringify(data);
+    //             alert(obj);
+    //             var jsary = eval('('+obj+')');
+    //             alert(jsary);
+    //         }
+    //
+    //     })
+    // }
+    var clickTimes = 0;
+    $(document).ready(function(){
         $.ajax({
-            url: "../wxdatabase",
-            type: "post",
-            dataType: "json",
-            success: function (data) {
-                var a = $("<li class='container'><p></p><p class='pull-right'></p><div><p></p><span class='pull-right glyphicon glyphicon-volume-down' onclick='audioplay()'></span><audio src='' class='audio'>请使用微信内浏览器加载页面</audio></div></li>")
-                $("ul").append(a);
-                var obj = JSON.stringify(data);
-                alert(obj);
-                var jsary = eval('('+obj+')');
-                alert(jsary);
+            type:"Post",
+            url:"../wxcachecountsend",
+            datatype:"json",
+            success:function(data){
+                var obj = JSON.parse(data);
+                var jsonstr = JSON.stringify(obj);
+                var jsary = eval('('+jsonstr+')');
+                wx.config({
+                    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: 'wx089d88a718cffb12', // 必填，公众号的唯一标识
+                    timestamp: jsary.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: jsary.nonceStr, // 必填，生成签名的随机串
+                    signature: jsary.signature,// 必填，签名，见附录1
+                    jsApiList: [
+                        "onMenuShareTimeline",
+                        "onMenuShareQQ",
+                        "chooseWXPay",
+                    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+                wx.ready(function(){
+                    wx.onMenuShareTimeline({
+                        title: '互联网之子',
+                        link: 'http://movie.douban.com/subject/25785114/',
+                        imgUrl: 'http://demo.open.weixin.qq.com/jssdk/images/p2166127561.jpg',
+                        trigger: function (res) {
+                            // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+                            alert('用户点击分享到朋友圈');
+                        },
+                        success: function (res) {
+                            alert('已分享');
+                        },
+                        cancel: function (res) {
+                            alert('已取消');
+                        },
+                        fail: function (res) {
+                            alert(JSON.stringify(res));
+                        }
+                    });
+                    wx.onMenuShareQQ({
+                        title: '互联网之子',
+                        desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+                        link: 'http://movie.douban.com/subject/25785114/',
+                        imgUrl: 'https://www.baidu.com/img/bd_logo1.png',
+                        trigger: function (res) {
+                            alert('用户点击分享到QQ');
+                        },
+                        complete: function (res) {
+                            alert(JSON.stringify(res));
+                        },
+                        success: function (res) {
+                            alert('已分享');
+                        },
+                        cancel: function (res) {
+                            alert('已取消');
+                        },
+                        fail: function (res) {
+                            alert(JSON.stringify(res));
+                        }
+                    });
+                });
             }
-
+        });
+    });
+    function wxpay() {
+        clickTimes ++;
+        if (clickTimes == 1) {
+        //get code
+        var query = window.location.search.substring(6);
+        var code = query.split("&")[0];
+        //send code to /wxpay
+        $.ajax({
+            type: "Post",
+            url: "../wxpay",
+            data: code,
+            datatype: "json",
+            success: function (data2) {
+                var obj2 = JSON.parse(data2);
+                var jsonstr2 = JSON.stringify(obj2);
+                var jsary2 = eval('(' + jsonstr2 + ')');
+                alert(typeof(jsonstr2));
+                localStorage.jsonstr2 = jsonstr2;
+                localStorage.jsary2 = jsary2;
+                wx.chooseWXPay({
+                    appId: 'wx089d88a718cffb12',
+                    timestamp: jsary2.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                    nonceStr: jsary2.nonceStr, // 支付签名随机串，不长于 32 位
+                    package: jsary2.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    paySign: jsary2.paySign, // 支付签名
+                    success: function () {
+                        // 支付成功后的回调函数
+                        alert('支付成功')
+                    },
+                    cancel: function () {
+                        alert("支付取消")
+                    },
+                    fail: function () {
+                        alert("支付失败")
+                    }
+                })
+            }
         })
-        //add new course auto
+        }else {
+            var jsonstr2 = localStorage.jsonstr2;
+            var jsary2 = eval('(' + jsonstr2 + ')');
+            alert("jsary2为：" + localStorage.jsary2 + "jsonstr2类型为：" + typeof (jsonstr2) + "jsonstr2值为：" + jsonstr2);
+            alert(localStorage.jsary2.toString());
+            wx.chooseWXPay({
+                appId: 'wx089d88a718cffb12',
+                timestamp: jsary2.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                nonceStr: jsary2.nonceStr, // 支付签名随机串，不长于 32 位
+                package: jsary2.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                paySign: jsary2.paySign, // 支付签名
+                success: function () {
+                    // 支付成功后的回调函数
+                    alert('支付成功')
+                },
+                cancel: function () {
+                    alert("支付取消")
+                },
+                fail: function () {
+                    alert("支付失败")
+                }
+
+            })
+        }
     }
 </script>
 </html>
