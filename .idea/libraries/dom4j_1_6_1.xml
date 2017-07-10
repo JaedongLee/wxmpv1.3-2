@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="commons-codec-1.5">
+  <library name="dom4j-1.6.1">
     <CLASSES>
-      <root url="jar://D:/Jars/MD5/commons-codec-1.5.jar!/" />
+      <root url="jar://D:/Jars/XML/dom4j-1.6.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

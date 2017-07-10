@@ -64,3 +64,35 @@ function audioplayCache() {
         }
     }
 }
+
+function uploadINF() {
+    var id = document.getElementById("up-id").value;
+    var name = document.getElementById("up-name").value;
+    var description = document.getElementById("up-des").value;
+    //获取文件名
+    var file = $("#up-file").val();
+    if(file != null) {
+        var pos = file.lastIndexOf("\\");
+        var fileName = file.substring(pos+1);
+    }
+    else {
+        alert("请上传文件")
+        return;
+    }
+    var jsonUp = {};
+    jsonUp.id = id;
+    jsonUp.name = name;
+    jsonUp.fileName = fileName;
+    jsonUp.description = description;
+    $.ajax({
+        type: 'post',
+        url: '../wxlayindb',
+        data: JSON.stringify(jsonUp),
+        processData: 'false',
+        datatype: 'json',
+        success: function (data) {
+           alert(data) ;
+        }
+    })
+}
+

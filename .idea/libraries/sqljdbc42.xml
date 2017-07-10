@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="sqljdbc42">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../Jars/sqlserve-connector-java/enu/jre8/sqljdbc42.jar!/" />
+      <root url="jar://D:/Jars/sqlserve-connector-java/enu/jre8/sqljdbc42.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

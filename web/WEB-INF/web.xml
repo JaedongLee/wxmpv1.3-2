@@ -7,12 +7,12 @@
         <welcome-file>Welcome.html</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>wxcachecountsend</servlet-name>
-        <servlet-class>com.tsinghua.WxCacheCountSend</servlet-class>
+        <servlet-name>wxsenddb</servlet-name>
+        <servlet-class>com.tsinghua.wxsendDB</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wxcachecountsend</servlet-name>
-        <url-pattern>/wxcachecountsend</url-pattern>
+        <servlet-name>wxsenddb</servlet-name>
+        <url-pattern>/wxsenddb</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>wxgettokenandticket</servlet-name>
@@ -39,12 +39,12 @@
         <url-pattern>/wxpay</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>wxdatabase</servlet-name>
-        <servlet-class>com.tsinghua.wxdatabase</servlet-class>
+        <servlet-name>wxlayindb</servlet-name>
+        <servlet-class>com.tsinghua.wxlayinDB</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wxdatabase</servlet-name>
-        <url-pattern>/wxdatabase</url-pattern>
+        <servlet-name>wxlayindb</servlet-name>
+        <url-pattern>/wxlayindb</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wxmpcc archive">
+    <output-path>$PROJECT_DIR$/out/artifacts/wxmpcc_archive</output-path>
+    <root id="archive" name="wxmpcc archive.war">
+      <element id="artifact" artifact-name="wxmpcc" />
+    </root>
+  </artifact>
+</component>

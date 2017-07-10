@@ -17,6 +17,10 @@ body.signup {
     color: #e67817
 }
 
+body.backstage {
+    max-width: 800px;
+}
+
 .text-center {
     margin: 0 auto;
     padding-top: 0.4em;
