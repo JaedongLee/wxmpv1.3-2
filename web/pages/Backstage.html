@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../js/jquery-3.2.1.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/aws-sdk-2.82.0.min.js"></script>
     <script src="../js/whole.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/whole.css">
@@ -31,7 +32,8 @@
         <!--</div>-->
         <div class="form-group">
             <label for="up-file">文件上传:</label>
-            <input type="file" id="up-file">
+            <input type="file" id="up-file" multiple/>
+            <button onclick="uploadFile()">上传文件</button>
         </div>
         <button type="submit" class="btn btn-default" onclick="uploadINF()">课程提交</button>
     </form>

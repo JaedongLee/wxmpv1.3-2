@@ -30,6 +30,38 @@
     }
 }
 */
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if(typeof(window.onload) != 'function') {
+        window.onload = func;
+    }else {
+        window.onload = function() {
+            oldonload();
+            func();
+        };
+    }
+}
+
+function getUrlParameter() {
+    //var para = parseInt(window.location.search.substr(3));
+    var url = location.search;
+    var theRequest = new Object();
+    if(url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        strs = str.split("&");
+        for(i=0;i<strs.length;i++) {
+            theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+        }
+        return theRequest;
+    }
+}
+
+//FatherInterfaceTemplet jump to SubInterfaceTemplet with id
+function jumpTo(event) {
+    var linkId = event.target.id;
+    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=http%3A%2F%2Fwww.chengchuang.cn-north-1.eb.amazonaws.com.cn%2Fpages%2FSubInterfaceTemplet.html?id=" + linkId + "&response_type=code&scope=snsapi_base#wechat_redirect";
+    window.location.assign(link);
+}
 
 function audioplay() {
     var storage = window.localStorage;
@@ -65,6 +97,7 @@ function audioplayCache() {
     }
 }
 
+//上传信息到数据库 需要重写 0714
 function uploadINF() {
     var id = document.getElementById("up-id").value;
     var name = document.getElementById("up-name").value;
@@ -96,3 +129,64 @@ function uploadINF() {
     })
 }
 
+//上传文件到AWS S3
+function uploadFile() {
+    let files = document.getElementById('up-file').files;
+
+    AWS.config.update({
+        accessKeyId: 'AKIAOKTL25RKYPCE7SIA',
+        secretAccessKey: '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',
+        region: 'cn-north-1'
+    });
+    let s3 = new AWS.S3();
+    let prefix = 'audio';
+    let bucket = 'wx-mp-chengchuang';
+
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        let blob = new Blob([file]);
+        let params = {
+            Bucket: bucket,
+            Key: prefix + files[i].name,
+            Body: blob,
+            ContentLength: file.size
+        };
+
+        s3.putObject(params, function(err, data) {
+            if (err) {
+                console.log(err, err.stack); // an error occurred
+            } else {
+                console.log(data);           // successful response
+            }
+        });
+    }
+
+    // let files = document.getElementById("up-file").files;
+    // AWS.config.update({
+    //     accessKeyid:'AKIAP7P57O7AEKSTPVEQ',
+    //     secretAccessKey:'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',
+    //     region: 'cn-north-1'
+    // });
+    // let s3 = new AWS.S3();
+    // let prefix = '';
+    // let bucket = 'wx-mp-chengchuang';
+    // for(let i=0;i<files.length;i++) {
+    //     let file = files[i];
+    //     let blob = new Blob([file]);
+    //     let params = {
+    //         Bucket: bucket,
+    //         Key: prefix + files[i].name,
+    //         Body: blob,
+    //         ContentLength: file.size
+    //     }
+    // }
+    // s3.putObject(params,function(err,data){
+    //     if(err) {
+    //         //alert(err,err.stack);
+    //         console.log(err,err.stack); //an error occirred
+    //     }else {
+    //         //alert(data);
+    //         console.log(data); //successful response
+    //     }
+    // });
+}

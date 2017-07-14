@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/subInterface.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    demaxiya
+</body>
+<script>
+var Request = new Object();
+Request = getUrlParameter();
+var id,name;
+id = Request['id'];
+name = Request['name'];
+alert(id+name);
+function getUrlParameter() {
+    //var para = parseInt(window.location.search.substr(3));
+    var url = location.search;
+    var theRequest = new Object();
+    if(url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        strs = str.split("&");
+        for(i=0;i<strs.length;i++) {
+            theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+        }
+        return theRequest;
+    }
+}
+//     var Request = new Object();
+//     Request = subInterfaceTemplet();
+//     var id,name;
+//     id = Request['id'];
+//     name = Request['name'];
+//     alert(id+name)
+//     function subInterfaceTemplet() {
+//     //var para = parseInt(window.location.search.substr(3));
+//     var url = location.search;
+//     var theRequest = new Object();
+//     if(url.indexOf("?") != -1) {
+//         var str = url.substr(1);
+//         strs = str.split("&");
+//         for(i=0;i<strs.length;i++) {
+//             theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+//         }
+//         return theRequest;
+//     }
+// }
+</script>
+</html>

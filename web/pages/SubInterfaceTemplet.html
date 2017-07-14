@@ -8,6 +8,7 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <script src="../js/whole.js"></script>
+    <script src="../js/subInterface.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/whole.css">
     <title>收听子目录</title>
@@ -34,11 +35,6 @@
             <div>
                 <p>Python初识</p>
                 <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
-<!--
-                <audio class="audio" src="../audio/2017-06-16 〖管理解析〗KPI细说——计划准确率.mp3">
-                    请使用微信内浏览器加载页面
-                </audio>
--->
             </div>
         </li>
         <li class="container">
@@ -47,11 +43,6 @@
             <div>
                 <p>Python语法基础</p>
                 <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
-<!--
-                <audio class="audio" src="../audio/2017－06－15　应用管理学·管理者概论·管理都是一群什么样的人.mp3">
-                    请使用微信内浏览器加载页面
-                </audio>
--->
             </div>
         </li>
         <li class="container">
@@ -60,32 +51,11 @@
             <div>
                 <p>Python控制流</p>
                 <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
-<!--
-                <audio class="audio" src="../audio/2017－06－15 　应用管理学·管理者概论·为什么建议经理们都学学《应用管理学》.mp3">
-                    请使用微信内浏览器加载页面
-                </audio>
--->
             </div>
         </li>
     </ul>
 </body>
-<script type="text/javascript">
-    // function appendEle() {
-    //     $.ajax({
-    //         url: "../wxdatabase",
-    //         type: "post",
-    //         dataType: "json",
-    //         success: function (data) {
-    //             var a = $("<li class='container'><p></p><p class='pull-right'></p><div><p></p><span class='pull-right glyphicon glyphicon-volume-down' onclick='audioplay()'></span><audio src='' class='audio'>请使用微信内浏览器加载页面</audio></div></li>")
-    //             $("ul").append(a);
-    //             var obj = JSON.stringify(data);
-    //             alert(obj);
-    //             var jsary = eval('('+obj+')');
-    //             alert(jsary);
-    //         }
-    //
-    //     })
-    // }
+<!-- <script type="text/javascript">
     var clickTimes = 0;
     $(document).ready(function(){
         $.ajax({
@@ -155,43 +125,43 @@
     function wxpay() {
         clickTimes ++;
         if (clickTimes == 1) {
-        //get code
-        var query = window.location.search.substring(6);
-        var code = query.split("&")[0];
-        //send code to /wxpay
-        $.ajax({
-            type: "Post",
-            url: "../wxpay",
-            data: code,
-            datatype: "json",
-            success: function (data2) {
-                var obj2 = JSON.parse(data2);
-                var jsonstr2 = JSON.stringify(obj2);
-                var jsary2 = eval('(' + jsonstr2 + ')');
-                alert(typeof(jsonstr2));
-                localStorage.jsonstr2 = jsonstr2;
-                localStorage.jsary2 = jsary2;
-                wx.chooseWXPay({
-                    appId: 'wx089d88a718cffb12',
-                    timestamp: jsary2.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                    nonceStr: jsary2.nonceStr, // 支付签名随机串，不长于 32 位
-                    package: jsary2.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                    signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    paySign: jsary2.paySign, // 支付签名
-                    success: function () {
-                        // 支付成功后的回调函数
-                        alert('支付成功');
-                        window.location.href="./SubSubInterfaceTemplet.html";
-                    },
-                    cancel: function () {
-                        alert("支付取消");
-                    },
-                    fail: function () {
-                        alert("支付失败")
-                    }
-                })
-            }
-        })
+            //get code
+            var query = window.location.search.substring(6);
+            var code = query.split("&")[0];
+            //send code to /wxpay
+            $.ajax({
+                type: "Post",
+                url: "../wxpay",
+                data: code,
+                datatype: "json",
+                success: function (data2) {
+                    var obj2 = JSON.parse(data2);
+                    var jsonstr2 = JSON.stringify(obj2);
+                    var jsary2 = eval('(' + jsonstr2 + ')');
+                    alert(typeof(jsonstr2));
+                    localStorage.jsonstr2 = jsonstr2;
+                    localStorage.jsary2 = jsary2;
+                    wx.chooseWXPay({
+                        appId: 'wx089d88a718cffb12',
+                        timestamp: jsary2.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: jsary2.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: jsary2.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                        signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                        paySign: jsary2.paySign, // 支付签名
+                        success: function () {
+                            // 支付成功后的回调函数
+                            alert('支付成功');
+                            window.location.href="./SubSubInterfaceTemplet.html";
+                        },
+                        cancel: function () {
+                            alert("支付取消");
+                        },
+                        fail: function () {
+                            alert("支付失败")
+                        }
+                    })
+                }
+            })
         }else {
             var jsonstr2 = localStorage.jsonstr2;
             var jsary2 = eval('(' + jsonstr2 + ')');
@@ -218,5 +188,5 @@
             })
         }
     }
-</script>
+</script> -->
 </html>

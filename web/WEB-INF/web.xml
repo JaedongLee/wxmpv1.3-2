@@ -46,5 +46,13 @@
         <servlet-name>wxlayindb</servlet-name>
         <url-pattern>/wxlayindb</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>wxdbproxy</servlet-name>
+        <servlet-class>com.tsinghua.wxDBProxy</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wxdbproxy</servlet-name>
+        <url-pattern>/wxdbproxy</url-pattern>
+    </servlet-mapping>
 
 </web-app>

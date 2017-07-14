@@ -7,7 +7,6 @@
       <root url="jar://D:/Jars/msm-javolution-serializer-1.5.1.jar!/" />
       <root url="jar://D:/Jars/json-lib-2.1-jdk15.jar!/" />
       <root url="jar://D:/Jars/javolution-5.4.3.1.jar!/" />
-      <root url="jar://D:/Jars/gson-2.6.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

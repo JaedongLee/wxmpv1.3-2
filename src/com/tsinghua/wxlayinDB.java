@@ -45,8 +45,6 @@ public class wxlayinDB extends HttpServlet {
 */
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//获取系统时间
         Time = df.format(new Date());
-        System.out.println(Time);
-
         String st = in.readLine();
         System.out.println("接收到的json字符串为:" + st);
         try {

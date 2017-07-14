@@ -8,6 +8,7 @@
           <element id="library" level="project" name="sqljdbc42" />
           <element id="library" level="project" name="commons-codec-1.5" />
           <element id="library" level="project" name="dom4j-1.6.1" />
+          <element id="library" level="project" name="gson-2.7" />
         </element>
         <element id="directory" name="classes">
           <element id="module-output" name="wxmpv1.3-2" />

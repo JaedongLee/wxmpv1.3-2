@@ -20,73 +20,7 @@ import java.util.Map;
 public class wxsendDB extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-//        String  dbURL = "jdbc:sqlserver://localhost:1433;DatabaseName=lynda";
-//        String userName = "sa";
-//        String userPwd = "3276588ztr";
-//        String id;
-//        String name;
-//        String time;
-//        String url;
-//        Array ary;
-//        Map<String,String> map = new HashMap<>();
-//        Map<String,Object> map1 = new HashMap<>();
-//        try {
-//            Class.forName(driverName);
-//            Connection conn = DriverManager.getConnection(dbURL,userName,userPwd);
-//            System.out.println("wxsendDB connect success");
-//            Statement statement = conn.createStatement();
-//            String sql = "select * from lynda.dbo.wxmpcc";
-//            ResultSet rs = statement.executeQuery(sql);
-//            while(rs.next()) {
-//                id = rs.getString("ID");
-//                name = rs.getString("Name");
-//                time = rs.getString("Time");
-//                url = rs.getString("URL");
-//                map.put("Name",name);
-//                map.put("Time",time);
-//                map.put("URL",url);
-//                System.out.println(map);
-//                map1.put(id,m_gson.toJson(map));//id is key,json from map is value
-//            }
-/*        String id;
-        String name;
-        String time;
-        String url;
-        Map<String,String> map = new HashMap<>();
-        Map<String,Object> map1 = new HashMap<>();
-        String sql = "select * from lynda.dbo.wxmpcc";
-        Connection conn = getDatabase(sql,"lynda","sa","3276588ztr");
-            try {
-                Statement statement = conn.createStatement();
-                ResultSet rs = statement.executeQuery(sql);
-                while(rs.next()) {
-                    id = rs.getString("ID");
-                    name = rs.getString("Name");
-                    time = rs.getString("Time");
-                    url = rs.getString("URL");
-                    map.put("Name",name);
-                    map.put("Time",time);
-                    map.put("URL",url);
-                    map1.put(id,m_gson.toJson(map));//id is key,json from map is value
-                    System.out.println(map);
-                    System.out.println(map1);
-                }
-                rs.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }*/
-
             sendScResponse(getDatabase("select * from lynda.dbo.wxmpcc","lynda","sa","3276588ztr"),response);
-//            rs.close();
-//            conn.close();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("wxsendDB connect fail");
-//        }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -114,6 +48,7 @@ public class wxsendDB extends HttpServlet {
             try {
                 Statement statement = conn.createStatement();
 //                rs = statement.executeQuery(sql);
+                System.out.println("连接的状态为：" + statement.executeQuery(sql));
                 if (statement.executeQuery(sql) != null) {
                     rs = statement.executeQuery(sql);
                     while(rs.next()) {

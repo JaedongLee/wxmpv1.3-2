@@ -23,5 +23,6 @@
     <orderEntry type="library" name="sqljdbc42" level="project" />
     <orderEntry type="library" name="commons-codec-1.5" level="project" />
     <orderEntry type="library" name="dom4j-1.6.1" level="project" />
+    <orderEntry type="library" name="gson-2.7" level="project" />
   </component>
 </module>
