@@ -71,7 +71,8 @@ function fatherInterface() {
                             var id = "#" + parentCate[para].categoryID;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
-                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(event)' id=" + ary[j].categoryID + ">点击进入</a></div></div></div></li>");
+                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo()' id=" +
+                                ary[j].categoryID + ">点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }
                     }
@@ -81,7 +82,7 @@ function fatherInterface() {
             }else if(urlRequest.indexOf("Lecture")>0) {
                 //遍历解决方案所包含的所有父课程
                 var parentCate = childJson.childJsonName1;
-                var para = parseInt(window.location.search.substr(1));//获取父课程的标志
+                var para = parseInt(window.location.search.substr(1));//获取父课程的id
                 if(parentCate[para] != null) {
                     console.log(parentCate[para]);
                     var ul = $("<ul class='list-unstyled' id=" + parentCate[para].categoryID + "><h4 class='container'><strong>" + parentCate[para].categoryName + "</strong></h4>")
@@ -92,7 +93,8 @@ function fatherInterface() {
                             var id = "#" + parentCate[para].categoryID;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
-                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(event)' id=" + ary[j].categoryID + ">点击进入</a></div></div></div></li>");
+                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo()' id=" +
+                                ary[j].categoryID + ">点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }
                     }
@@ -113,7 +115,8 @@ function fatherInterface() {
                             var id = "#" + parentCate[para].categoryID;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
-                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(event)' id=" + ary[j].categoryID + ">点击进入</a></div></div></div></li>");
+                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo()' id=" +
+                                ary[j].categoryID  + ">点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }
                     }

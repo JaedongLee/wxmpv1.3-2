@@ -14,48 +14,8 @@
     <title>收听子目录</title>
 </head>
 <body class="interface">
-    <div class="interface-title-container">
-        <img src="../images/interface/1.png" alt="1">
-        <h3 class="interface-title"><strong>专题讲座-老板课</strong></h3>
-        <h4 class="interface-subtitle"><strong>Python初级教程</strong></h4>
-    </div>
-    <div class="container interface-border">
-        <h4 class="">课程简介</h4>
-        <p>
-            &nbsp&nbsp&nbsp&nbsp本套课程主要讲解 Python 的基础知识，让学员能够建立 Python 编程的初步印象，
-            为今后学习 Python 打下坚实基础。本套课程适合 Python 编程入门者学习，能够让学生快速走进 Python
-             开发的世界......
-        </p>
-    </div>
-    <ul class="list-unstyled">
-        <h4 class="container">收听列表</h4>
-        <li class="container">
-            <p>2017-06-25</p>
-            <p class="pull-right">【未收听】</p>
-            <div>
-                <p>Python初识</p>
-                <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
-            </div>
-        </li>
-        <li class="container">
-            <p>2017-06-28</p>
-            <p class="pull-right">【未收听】</p>
-            <div>
-                <p>Python语法基础</p>
-                <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
-            </div>
-        </li>
-        <li class="container">
-            <p>2017-06-28</p>
-            <p class="pull-right">【未收听】</p>
-            <div>
-                <p>Python控制流</p>
-                <span class="pull-right glyphicon glyphicon-yen" onclick="wxpay()"></span>
-            </div>
-        </li>
-    </ul>
 </body>
-<!-- <script type="text/javascript">
+ <script type="text/javascript">
     var clickTimes = 0;
     $(document).ready(function(){
         $.ajax({
@@ -124,6 +84,9 @@
     });
     function wxpay() {
         clickTimes ++;
+        var courseID = event.target.id;
+        var category = new Array();
+        category = getUrlParameterConfig();
         if (clickTimes == 1) {
             //get code
             var query = window.location.search.substring(6);
@@ -151,7 +114,7 @@
                         success: function () {
                             // 支付成功后的回调函数
                             alert('支付成功');
-                            window.location.href="./SubSubInterfaceTemplet.html";
+                            window.location.href="./SubSubInterfaceTemplet.html?courseID=" + courseID + "&categoryID=" + category[0] + "&categoryName=" + category[1] + "&categoryDescription=" + category[2];
                         },
                         cancel: function () {
                             alert("支付取消");
@@ -176,7 +139,7 @@
                 success: function () {
                     // 支付成功后的回调函数
                     alert('支付成功');
-                    window.location.href="./SubSubInterfaceTemplet.html";
+                    window.location.href="./SubSubInterfaceTemplet.html?courseID=" + courseID + "&categoryID=" + category[0] + "&categoryName=" + category[1] + "&categoryDescription=" + category[2];
                 },
                 cancel: function () {
                     alert("支付取消");
@@ -188,5 +151,5 @@
             })
         }
     }
-</script> -->
+</script> 
 </html>

@@ -50,16 +50,17 @@ function getUrlParameter() {
         var str = url.substr(1);
         strs = str.split("&");
         for(i=0;i<strs.length;i++) {
-            theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+            theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
         }
         return theRequest;
     }
 }
 
 //FatherInterfaceTemplet jump to SubInterfaceTemplet with id
-function jumpTo(event) {
+function jumpTo() {
     var linkId = event.target.id;
-    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=http%3A%2F%2Fwww.chengchuang.cn-north-1.eb.amazonaws.com.cn%2Fpages%2FSubInterfaceTemplet.html?id=" + linkId + "&response_type=code&scope=snsapi_base#wechat_redirect";
+    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=http%3A%2F%2Fwww.chengchuang.cn-north-1.eb.amazonaws.com.cn%2Fpages%2FSubInterfaceTemplet.html?categoryID="
+        + linkId + "&categoryName" +  + "&response_type=code&scope=snsapi_base#wechat_redirect";
     window.location.assign(link);
 }
 
@@ -132,16 +133,14 @@ function uploadINF() {
 //上传文件到AWS S3
 function uploadFile() {
     let files = document.getElementById('up-file').files;
-
     AWS.config.update({
         accessKeyId: 'AKIAOKTL25RKYPCE7SIA',
         secretAccessKey: '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',
         region: 'cn-north-1'
     });
     let s3 = new AWS.S3();
-    let prefix = 'audio';
+    let prefix = '';
     let bucket = 'wx-mp-chengchuang';
-
     for (let i = 0; i < files.length; i++) {
         let file = files[i];
         let blob = new Blob([file]);
@@ -151,7 +150,6 @@ function uploadFile() {
             Body: blob,
             ContentLength: file.size
         };
-
         s3.putObject(params, function(err, data) {
             if (err) {
                 console.log(err, err.stack); // an error occurred
@@ -160,33 +158,49 @@ function uploadFile() {
             }
         });
     }
+}
 
-    // let files = document.getElementById("up-file").files;
-    // AWS.config.update({
-    //     accessKeyid:'AKIAP7P57O7AEKSTPVEQ',
-    //     secretAccessKey:'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',
-    //     region: 'cn-north-1'
-    // });
-    // let s3 = new AWS.S3();
-    // let prefix = '';
-    // let bucket = 'wx-mp-chengchuang';
-    // for(let i=0;i<files.length;i++) {
-    //     let file = files[i];
-    //     let blob = new Blob([file]);
-    //     let params = {
-    //         Bucket: bucket,
-    //         Key: prefix + files[i].name,
-    //         Body: blob,
-    //         ContentLength: file.size
-    //     }
-    // }
-    // s3.putObject(params,function(err,data){
-    //     if(err) {
-    //         //alert(err,err.stack);
-    //         console.log(err,err.stack); //an error occirred
-    //     }else {
-    //         //alert(data);
-    //         console.log(data); //successful response
-    //     }
-    // });
+//type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryNmae
+function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryNmae) {
+    var Course = {};
+    Course.OwnerID = "";
+    Course.Name = "";
+    Course.Description = "";
+    Course.Type = "";
+    Course.Price = "";
+    Course.URL = "";
+    Course.status = "";
+    Course.CourseID = CourseID;
+    Course.courseType = courseType;
+    Course.GradeSize = "";
+    Course.MaterailPrice = "";
+    Course.CreationTime = "";
+    Course.CreationLogonID = "";
+    Course.ModificationTime = "";
+    Course.ModificationLogonID = "";
+    Course.CategoryID = CategoryID;
+    Course.WXUsersOpenID = WXUsersOpenID;
+    Course.CourseName = CourseName;
+    Course.CourseDescription = CourseDescription;
+    Course.CategoryNmae = CategoryNmae;
+    Course.type = type;
+    var Coursejson = "CTAG=settings.ChengChuangCourse&SCOBJ=" + JSON.stringify(Course);
+    var ajaxReturn;
+    $.ajax({
+        type: 'post',
+        url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
+        data: Coursejson,
+        datatype: 'json',
+        async: false,
+        success: function(data) {
+            var jsonObj = eval('(' + data + ')');
+            var courseDate = jsonObj.listOfChengChuangCourse;
+            // var test = courseDate[0].CourseName;
+            // console.log(typeof(jsonObj));
+            // console.log(typeof(test));
+            // return courseDate;
+            ajaxReturn = courseDate;
+        }
+    });
+    return ajaxReturn;
 }

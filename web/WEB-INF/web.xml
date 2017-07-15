@@ -54,5 +54,12 @@
         <servlet-name>wxdbproxy</servlet-name>
         <url-pattern>/wxdbproxy</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>wxcachecountsend</servlet-name>
+        <servlet-class>com.tsinghua.WxCacheCountSend</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wxcachecountsend</servlet-name>
+        <url-pattern>/wxcachecountsend</url-pattern>
+    </servlet-mapping>
 </web-app>
