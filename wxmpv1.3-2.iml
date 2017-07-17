@@ -19,10 +19,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="mysql-connector-java-5.1.42-bin" level="project" />
     <orderEntry type="library" name="sqljdbc42" level="project" />
     <orderEntry type="library" name="commons-codec-1.5" level="project" />
     <orderEntry type="library" name="dom4j-1.6.1" level="project" />
     <orderEntry type="library" name="gson-2.7" level="project" />
+    <orderEntry type="library" name="javolution-5.4.3.1" level="project" />
+    <orderEntry type="library" name="json-lib-2.1-jdk15" level="project" />
+    <orderEntry type="library" name="org.json.JSONObject" level="project" />
+    <orderEntry type="library" name="servlet-api" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-5.1.42-bin1" level="project" />
+    <orderEntry type="library" name="msm-javolution-serializer-1.5.1" level="project" />
   </component>
 </module>

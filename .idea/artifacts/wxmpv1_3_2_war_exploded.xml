@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="wxmpv1.3-2:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/wxmpv1_3_2_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="wxmpv1.3-2" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="sqljdbc42" />
+          <element id="library" level="project" name="commons-codec-1.5" />
+          <element id="library" level="project" name="dom4j-1.6.1" />
+          <element id="library" level="project" name="gson-2.7" />
+          <element id="library" level="project" name="javolution-5.4.3.1" />
+          <element id="library" level="project" name="json-lib-2.1-jdk15" />
+          <element id="library" level="project" name="org.json.JSONObject" />
+          <element id="library" level="project" name="mysql-connector-java-5.1.42-bin1" />
+          <element id="library" level="project" name="msm-javolution-serializer-1.5.1" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="wxmpv1.3-2/web/Web" />
+    </root>
+  </artifact>
+</component>

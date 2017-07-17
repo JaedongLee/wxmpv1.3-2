@@ -56,14 +56,6 @@ function getUrlParameter() {
     }
 }
 
-//FatherInterfaceTemplet jump to SubInterfaceTemplet with id
-function jumpTo() {
-    var linkId = event.target.id;
-    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=http%3A%2F%2Fwww.chengchuang.cn-north-1.eb.amazonaws.com.cn%2Fpages%2FSubInterfaceTemplet.html?categoryID="
-        + linkId + "&categoryName" +  + "&response_type=code&scope=snsapi_base#wechat_redirect";
-    window.location.assign(link);
-}
-
 function audioplay() {
     var storage = window.localStorage;
     var eles = document.getElementsByClassName("subSubInt-2");//found listen frame div
@@ -98,70 +90,34 @@ function audioplayCache() {
     }
 }
 
-//上传信息到数据库 需要重写 0714
-function uploadINF() {
-    var id = document.getElementById("up-id").value;
-    var name = document.getElementById("up-name").value;
-    var description = document.getElementById("up-des").value;
-    //获取文件名
-    var file = $("#up-file").val();
-    if(file != null) {
-        var pos = file.lastIndexOf("\\");
-        var fileName = file.substring(pos+1);
-    }
-    else {
-        alert("请上传文件")
-        return;
-    }
-    var jsonUp = {};
-    jsonUp.id = id;
-    jsonUp.name = name;
-    jsonUp.fileName = fileName;
-    jsonUp.description = description;
+//category get from servlet
+function chengchuangCategory(type,ID,Name,Description,ParentID) {
+    var Category = {};
+    Category.ID = ID;
+    Category.Name = Name;
+    Category.Description = Description;
+    Category.ParentID = ParentID;
+    Category.status = "";
+    Category.type = type;
+    var Categoryjson = "CTAG=settings.Category&SCOBJ=" + JSON.stringify(Category);
+    var ajaxReturn;
     $.ajax({
         type: 'post',
-        url: '../wxlayindb',
-        data: JSON.stringify(jsonUp),
-        processData: 'false',
+        url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
+        data: Categoryjson,
         datatype: 'json',
-        success: function (data) {
-           alert(data) ;
+        async: false,
+        success: function(data) {
+            var jsonObj = eval('(' + data + ')');
+            var categoryData = jsonObj.listOfChengChuangCategory;
+            ajaxReturn = categoryData;
         }
     })
+    return ajaxReturn;
 }
 
-//上传文件到AWS S3
-function uploadFile() {
-    let files = document.getElementById('up-file').files;
-    AWS.config.update({
-        accessKeyId: 'AKIAOKTL25RKYPCE7SIA',
-        secretAccessKey: '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',
-        region: 'cn-north-1'
-    });
-    let s3 = new AWS.S3();
-    let prefix = '';
-    let bucket = 'wx-mp-chengchuang';
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        let blob = new Blob([file]);
-        let params = {
-            Bucket: bucket,
-            Key: prefix + files[i].name,
-            Body: blob,
-            ContentLength: file.size
-        };
-        s3.putObject(params, function(err, data) {
-            if (err) {
-                console.log(err, err.stack); // an error occurred
-            } else {
-                console.log(data);           // successful response
-            }
-        });
-    }
-}
-
-//type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryNmae
-function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryNmae) {
+//course get from servlet
+function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName) {
     var Course = {};
     Course.OwnerID = "";
     Course.Name = "";
@@ -182,7 +138,7 @@ function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,Cou
     Course.WXUsersOpenID = WXUsersOpenID;
     Course.CourseName = CourseName;
     Course.CourseDescription = CourseDescription;
-    Course.CategoryNmae = CategoryNmae;
+    Course.CategoryName = CategoryName;
     Course.type = type;
     var Coursejson = "CTAG=settings.ChengChuangCourse&SCOBJ=" + JSON.stringify(Course);
     var ajaxReturn;
@@ -194,12 +150,12 @@ function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,Cou
         async: false,
         success: function(data) {
             var jsonObj = eval('(' + data + ')');
-            var courseDate = jsonObj.listOfChengChuangCourse;
+            var courseData = jsonObj.listOfChengChuangCourse;
             // var test = courseDate[0].CourseName;
             // console.log(typeof(jsonObj));
             // console.log(typeof(test));
             // return courseDate;
-            ajaxReturn = courseDate;
+            ajaxReturn = courseData;
         }
     });
     return ajaxReturn;

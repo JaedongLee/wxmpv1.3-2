@@ -30,23 +30,31 @@ import java.util.*;
 public class wxpay extends HttpServlet {
     final static Gson m_gson = new GsonBuilder().setPrettyPrinting().create();
 
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String appid = "wx089d88a718cffb12";
         String secret = "0e9cd43ba77a97a67126d86b8ca7342a";
 
-        //get code from request
+        //get code and courseID from request
         BufferedReader codeGetbr = new BufferedReader(new InputStreamReader(request.getInputStream()));
         StringBuffer codeGetSbf = new StringBuffer();
         String codeGetLine;
+        String code = "";
+        String courseID = "";
         for (codeGetLine = codeGetbr.readLine();codeGetLine != null; codeGetLine = codeGetbr.readLine()) {
             codeGetSbf.append(codeGetLine);
         }
         String codeGetStr = codeGetSbf.toString();
+        try {
+            JSONObject json = new JSONObject(codeGetStr);
+            courseID = json.getString("courseID");
+            code = json.getString("code");
+        }catch (Exception e) {
+            System.out.println("=====获取code和courseID时出现错误：" + e.getMessage());
+        }
 
         //get access_token
         String codeUrlStr = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
-                + appid + "&secret=" + secret + "&code=" + codeGetStr + "&grant_type=authorization_code";
+                + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
         System.out.println("=====发送code请求的链接为：" + codeUrlStr);
         URL codeUrl = new URL(codeUrlStr);
         URLConnection codeCon = codeUrl.openConnection();
@@ -69,6 +77,12 @@ public class wxpay extends HttpServlet {
             e.printStackTrace();
         }
         System.out.println("=====openid为：" + openid);
+
+        //call wxOpenIDCourseID method: getOpenIDCourseID
+        String[] createOpenIDCourseID= {openid,courseID};
+        wxOpenIDCourseID openIDCourseID = new wxOpenIDCourseID();
+        openIDCourseID.getOpenIDCourseID(createOpenIDCourseID);
+
 
         //统一下单所需要的参数
         String mch_id = "1482465612";

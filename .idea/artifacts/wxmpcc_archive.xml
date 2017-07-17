@@ -2,11 +2,12 @@
   <artifact type="war" name="wxmpcc archive">
     <output-path>$PROJECT_DIR$/out/artifacts/wxmpcc_archive</output-path>
     <root id="archive" name="wxmpcc archive.war">
-      <element id="artifact" artifact-name="wxmpcc" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="lib">
           <element id="library" level="project" name="gson-2.7" />
         </element>
+        <element id="module-output" name="wxmpv1.3-2" />
+        <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/web.xml" />
       </element>
     </root>
   </artifact>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/aws-sdk-2.82.0.min.js"></script>
+    <script src="../js/whole.js"></script>
+    <script src="../js/backstage.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/whole.css">
+    <title>承创管理后台</title>
+</head>
+<body class="backstage center-block">
+    <form>
+        <h2 class="">课程上传</h2>
+        <div class="form-group">
+            <label for="courseName">课程名称:</label>
+            <input type="text" class="form-control" id="courseName" placeholder="输入课程名称">
+        </div>
+        <div class="form-group">
+            <label for="courseDescription">课程简介:</label>
+            <input type="text" class="form-control" id="courseDescription" placeholder="输入课程简介">
+        </div>
+        <div class="form-group">
+            <label for="courseID">子目录编号:</label>
+            <input type="text" class="form-control" id="categoryID" placeholder="输入子目录编号">
+        </div>
+        <div class="form-group">
+            <label for="courseID">价格:</label>
+            <input type="text" class="form-control" id="categoryPrice" placeholder="输入价格">
+        </div>
+        <div class="form-group">
+            <label for="courseFile">文件上传:</label>
+            <input type="file" id="courseFile"/>
+        </div>
+        <button type="submit" class="btn btn-default" onclick="insertCourse()">课程提交</button>
+    </form> 
+</body>
+</html>
