@@ -4,19 +4,20 @@ import org.dom4j.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-import sun.security.provider.MD5;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.Document;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -30,6 +31,13 @@ import java.util.*;
 public class wxpay extends HttpServlet {
     final static Gson m_gson = new GsonBuilder().setPrettyPrinting().create();
 
+    static String openID;
+
+    public String putOpenID(String string) {
+        this.openID = string;
+        return openID;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String appid = "wx089d88a718cffb12";
         String secret = "0e9cd43ba77a97a67126d86b8ca7342a";
@@ -39,60 +47,42 @@ public class wxpay extends HttpServlet {
         StringBuffer codeGetSbf = new StringBuffer();
         String codeGetLine;
         String code = "";
-        String courseID = "";
         for (codeGetLine = codeGetbr.readLine();codeGetLine != null; codeGetLine = codeGetbr.readLine()) {
             codeGetSbf.append(codeGetLine);
         }
-        String codeGetStr = codeGetSbf.toString();
+        String courseID = codeGetSbf.toString();
+        wxGetCourseByCourseID wxGC = new wxGetCourseByCourseID();
+        JSONObject jsonObj = new JSONObject();
         try {
-            JSONObject json = new JSONObject(codeGetStr);
-            courseID = json.getString("courseID");
-            code = json.getString("code");
-        }catch (Exception e) {
-            System.out.println("=====获取code和courseID时出现错误：" + e.getMessage());
-        }
-
-        //get access_token
-        String codeUrlStr = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
-                + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
-        System.out.println("=====发送code请求的链接为：" + codeUrlStr);
-        URL codeUrl = new URL(codeUrlStr);
-        URLConnection codeCon = codeUrl.openConnection();
-        BufferedReader codeBr = new BufferedReader(new InputStreamReader(codeCon.getInputStream()));
-        StringBuffer codeSbf = new StringBuffer();
-        String codeLine = "";
-        while ((codeLine = codeBr.readLine()) != null) {
-            codeSbf.append(codeLine);
-        }
-
-        //convert BufferReader to String, convert String to JSON and get openid's value
-        String codeRetStr = codeSbf.toString();
-        System.out.println("=====Code请求返回码为：" + codeRetStr);
-        String openid = "";
-        try {
-            JSONObject openidJs = new JSONObject(codeRetStr);
-            openid = openidJs.getString("openid");
-        }
-        catch (Exception e) {
+            jsonObj = wxGC.getCourseByCourseID(courseID);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.println("=====openid为：" + openid);
-
-        //call wxOpenIDCourseID method: getOpenIDCourseID
-        String[] createOpenIDCourseID= {openid,courseID};
-        wxOpenIDCourseID openIDCourseID = new wxOpenIDCourseID();
-        openIDCourseID.getOpenIDCourseID(createOpenIDCourseID);
+        String listStr = "";
+        JSONArray listAry = new JSONArray();
+        String feeStr = "";
+        JSONObject listObj = new JSONObject();
+        try {
+            listStr = jsonObj.getString("listOfChengChuangCourse");
+            listAry = new JSONArray(listStr);
+            listObj = listAry.getJSONObject(0);
+            feeStr = listObj.getString("Price");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        float feeFloat_cent = Float.parseFloat((feeStr));
+        float feeFloat = feeFloat_cent*100;
 
 
         //统一下单所需要的参数
-        String mch_id = "1482465612";
+        String mch_id = "1482465612";//商户号
         String nonce_str = create_nonce_str();
         String nonce_hash = Integer.toString(nonce_str.hashCode());//convert int nonce_str.hashCode() into string
         String timestamp = create_timestamp();
         String device_info = "web";
         String body = "test";
         String out_trade_no = timestamp + nonce_hash;
-        int total_fee = 1;
+        int total_fee = (int)feeFloat;
         String spbill_create_ip = getIpAddress(request);
         System.out.println("=====获取到的用户真实IP地址为：" + spbill_create_ip);
         String notify_url = "http://chengchuang.cn-north-1.eb.amazonaws.com.cn/";
@@ -102,7 +92,7 @@ public class wxpay extends HttpServlet {
         String sign = "";
 
         //拼接成字符串，再进行MD5转换
-        String signTran = "appid=" + appid + "&body=" + body + "&device_info=" + device_info + "&mch_id=" + mch_id + "&nonce_str=" + nonce_str + "&notify_url=" + notify_url + "&openid=" + openid + "&out_trade_no=" + out_trade_no + "&spbill_create_ip=" + spbill_create_ip + "&total_fee=" + total_fee + "&trade_type=" + trade_type;
+        String signTran = "appid=" + appid + "&body=" + body + "&device_info=" + device_info + "&mch_id=" + mch_id + "&nonce_str=" + nonce_str + "&notify_url=" + notify_url + "&openid=" + openID + "&out_trade_no=" + out_trade_no + "&spbill_create_ip=" + spbill_create_ip + "&total_fee=" + total_fee + "&trade_type=" + trade_type;
         System.out.println("=====统一下单拼接字符串为：" + signTran);
         //compose key with signTran
         String key = "l5a1nWOhtVh0DiA6dFt77v8VaF8GMWC8";
@@ -132,7 +122,7 @@ public class wxpay extends HttpServlet {
         sb.append("<trade_type>" + trade_type + "</trade_type>");
         sb.append("<device_info>" + device_info + "</device_info>");
         sb.append("<sign>" + sign + "</sign>");
-        sb.append("<openid>" + openid + "</openid>");
+        sb.append("<openid>" + openID + "</openid>");
         sb.append("</xml>");
         String sbStr = sb.toString();
         System.out.println("=====发送的统一下单XML为：" + sbStr);
@@ -227,6 +217,8 @@ public class wxpay extends HttpServlet {
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
+        String[] ipAry = ip.split(",");
+        ip = ipAry[0];
         return ip;
     }
 

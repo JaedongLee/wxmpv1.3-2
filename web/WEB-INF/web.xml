@@ -63,19 +63,27 @@
         <url-pattern>/wxcachecountsend</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>wxopenidcourseid</servlet-name>
-        <servlet-class>com.tsinghua.wxOpenIDCourseID</servlet-class>
+        <servlet-name>wxinsertopenidcourseid</servlet-name>
+        <servlet-class>com.tsinghua.wxInsertOpenIDCourseID</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wxopenidcourseid</servlet-name>
-        <url-pattern>/wxopenidcourseid</url-pattern>
+        <servlet-name>wxinsertopenidcourseid</servlet-name>
+        <url-pattern>/wxinsertopenidcourseid</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>wxopenid</servlet-name>
-        <servlet-class>com.tsinghua.wxOpenID</servlet-class>
+        <servlet-name>wxgetcoursebyopenid</servlet-name>
+        <servlet-class>com.tsinghua.wxGetCourseByOpenID</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wxopenid</servlet-name>
-        <url-pattern>/wxopenid</url-pattern>
+        <servlet-name>wxgetcoursebyopenid</servlet-name>
+        <url-pattern>/wxgetcoursebyopenid</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>wxgetcoursebycourseid</servlet-name>
+        <servlet-class>com.tsinghua.wxGetCourseByCourseID</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wxgetcoursebycourseid</servlet-name>
+        <url-pattern>/wxgetcoursebycourseid</url-pattern>
     </servlet-mapping>
 </web-app>

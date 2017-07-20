@@ -18,8 +18,8 @@ import java.net.URLConnection;
 /**
  * Created by e_jjk on 2017/7/17 0017.
  */
-@WebServlet(name = "wxOpenIDCourseID")
-public class wxOpenIDCourseID extends HttpServlet {
+@WebServlet(name = "wxInsertOpenIDCourseID")
+public class wxInsertOpenIDCourseID extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String openID = openIDCourseID[0];
         String courseID = openIDCourseID[1];
@@ -36,7 +36,12 @@ public class wxOpenIDCourseID extends HttpServlet {
         String jsonData = "CTAG=settings.ChengChuangCourse&SCOBJ=" + jsonStr;
         System.out.println(jsonData);
         String urlStr = "http://192.168.0.110:8080/lindasrv/JSONServlet";
-        JSONObject jsonRes = urlCon(urlStr,jsonData);
+        JSONObject jsonRes = new JSONObject();
+        try {
+            jsonRes = urlCon(urlStr,jsonData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         System.out.println(jsonRes);
 
 
@@ -49,11 +54,11 @@ public class wxOpenIDCourseID extends HttpServlet {
 
     static String[] openIDCourseID;
 
-    public String[] getOpenIDCourseID(String[] openIDCorseID) {
+    public String[] getOpenIDCourseID(String[] array) {
         return openIDCourseID;
     }
 
-    public JSONObject urlCon(String urlStr,String string) throws ServletException, IOException {
+    public JSONObject urlCon(String urlStr,String string) throws org.json.JSONException,ServletException, IOException {
         PrintWriter out = null;
         String result = "";
         BufferedReader in = null;
@@ -73,12 +78,7 @@ public class wxOpenIDCourseID extends HttpServlet {
             sb.append(line);
         }
         String st = sb.toString();
-        JSONObject json = new JSONObject();
-        try {
-            json.getJSONObject(st);
-        } catch (JSONException e) {
-            System.out.println("返回信息为：" + e);
-        }
+        JSONObject json = new JSONObject(st);
         return json;
 
     }

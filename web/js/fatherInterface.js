@@ -69,9 +69,12 @@ function fatherInterface() {
                     for(j=0;j<ary.length;j++) {
                         if(ary[j].parentID == parentCate[para].categoryID) {
                             var id = "#" + parentCate[para].categoryID;
+                            sessionStorage["category" + j + "categoryID"] = ary[j].categoryID;
+                            sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
+                            sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
-                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo()' id='" +
+                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
                                 ary[j].categoryID + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }
@@ -91,9 +94,12 @@ function fatherInterface() {
                     for(j=0;j<ary.length;j++) {
                         if(ary[j].parentID == parentCate[para].categoryID) {
                             var id = "#" + parentCate[para].categoryID;
+                            sessionStorage["category" + j + "categoryID"] = ary[j].categoryID;
+                            sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
+                            sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
-                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo()' id='" +
+                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
                                 ary[j].categoryID + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }
@@ -113,9 +119,12 @@ function fatherInterface() {
                     for(j=0;j<ary.length;j++) {
                         if(ary[j].parentID == parentCate[para].categoryID) {
                             var id = "#" + parentCate[para].categoryID;
+                            sessionStorage["category" + j + "categoryID"] = ary[j].categoryID;
+                            sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
+                            sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
-                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo()' id='" +
+                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
                                 ary[j].categoryID  + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }
@@ -133,12 +142,13 @@ function fatherInterface() {
 }
 
 //FatherInterfaceTemplet jump to SubInterfaceTemplet with id
-function jumpTo() {
-    var categoryID = sessionStorage.CategoryID;
-    var categoryName = sessionStorage.CategoryName;
-    var categoryDescription = sessionStorage.CategoryDescription;
-    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=http%3A%2F%2Fwww.chengchuang.cn-north-1.eb.amazonaws.com.cn%2Fpages%2FSubInterfaceTemplet.html?categoryID="
-        + categoryID + "&categoryName" + categoryName + "&categoryDescription" + categoryDescription + "&response_type=code&scope=snsapi_base#wechat_redirect";
+function jumpTo(j) {
+    var categoryID = sessionStorage["category" + j + "categoryID"];
+    var categoryName = sessionStorage["category" + j + "categoryName"];
+    var categoryDescription = sessionStorage["category" + j + "categoryDescription"];
+    var redirect_uri = encodeURIComponent("http://176j551f28.iask.in/pages/SubInterfaceTemplet.html?categoryID="
+        + categoryID + "&categoryName=" + categoryName + "&categoryDescription=" + categoryDescription);
+    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_base#wechat_redirect";
     window.location.assign(link);
 }
 

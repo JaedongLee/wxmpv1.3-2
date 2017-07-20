@@ -13,7 +13,7 @@ function addLoadEvent(func) {
 
 addLoadEvent(getUrlParameterConfig);
 
-addLoadEvent(sendCodeCourse);
+addLoadEvent(sendCode);
 
 addLoadEvent(getCourseByCategoryId);
 
@@ -71,7 +71,6 @@ function createSubInterfaceView() {
     var CategoryID = jsonData.dataKey[0];
     var CategoryName = jsonData.dataKey[1];
     var CategoryDescription = jsonData.dataKey[2];
-    var courseData = chengChuangCourse("getCourseByWXUsersOpenID","","","","","","","");
     //sessionStorage.CategoryID = jsonData.dataKey[0];
     //sessionStorage.CategoryName = jsonData.dataKey[1];
     //sessionStorage.CategoryDescription = jsonData.dataKey[2];
@@ -83,8 +82,8 @@ function createSubInterfaceView() {
         for(i=0;i<courseData.length;i++) {
             var id = "#" + CategoryID;
             var content = $('<li class="container"><p>' + courseData[i].CreationTime + 
-            '</p><p class="pull-right">【未收听】</p><div><p>' + courseData[i].CourseName + '</p><span class="pull-right glyphicon glyphicon-yen" id=course'
-             + courseData[i].CourseID + ' onclick="wxpay()">点击购买</span></div>');
+            '</p><p class="pull-right">【未收听】</p><div><p>' + courseData[i].CourseName + '</p><span class="pull-right glyphicon glyphicon-yen" id="course'
+             + courseData[i].CourseID + '" onclick="wxpay()">点击购买</span></div>');
             $(id).append(content);
         }
     }else {
@@ -93,16 +92,27 @@ function createSubInterfaceView() {
 }
 
 //send code to get courseIDs by openid which got by code in after-end
-function sendCodeCourse() {
+function sendCode() {
     var category = getUrlParameterConfig();
     var code = category[3];
     $.ajax({
         type: "Post",
-        url: "../wxpay",
+        url: "../wxgetcoursebyopenid",
         data: code,
         datatype: "json",
+        asyns: false,
         success: function (data) {
-            
+            var jsObj = eval('(' + data + ')');
+            var ary = jsObj.listOfChengChuangCourse;
+            for(i=0;i<ary.length;i++) {
+                var courseID = "";
+                courseID = "course" + ary[i].CourseID;
+                var ele = document.getElementById(courseID);
+                if (ele) {
+                    ele.removeAttribute("onclick");
+                    ele.textContent= "您已购买";
+                }
+            }
         }
     })    
 }
@@ -111,7 +121,7 @@ function sendCodeCourse() {
 function wxpay() {
     clickTimes ++;
     var category = getUrlParameterConfig()
-    var courseID = event.target.id;
+    var courseID = event.target.id.substr(6);
     if(clickTimes ==1) {
         $.ajax({
             type: "Post",
@@ -145,7 +155,7 @@ function wxpay() {
             }
         })
 
-    }else {
+    }/*else {
         var jsonStr = localStorage.jsonStr;
         var jsObj = eval('(' + jsonStr + ')');
         wx.chooseWXPay({
@@ -168,7 +178,7 @@ function wxpay() {
             }
         })
 
-    }
+    }*/
 }
 
 //ajax json to js obj
