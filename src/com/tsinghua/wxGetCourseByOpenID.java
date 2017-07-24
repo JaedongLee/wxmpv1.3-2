@@ -37,31 +37,45 @@ public class wxGetCourseByOpenID extends HttpServlet {
         for (codeGetLine = codeGetbr.readLine();codeGetLine != null; codeGetLine = codeGetbr.readLine()) {
             codeGetSbf.append(codeGetLine);
         }
-        code = codeGetSbf.toString();
+        String codeStr = codeGetSbf.toString();
+        JSONObject codeJson = new JSONObject();
+        try {
+            codeJson = new JSONObject(codeStr);
+            if (codeJson.has("code")) {
+                code = codeJson.getString("code");
+            }else if (codeJson.has("openID")) {
+                openID = codeJson.getString("openID");
+            }
+        }catch (Exception e) {
+            e.getMessage();
+        }
+
+        //判断是否需要获取openID，如果微信本地缓存中有openID则无需再向微信请求，因此重新刷新时可直接调用本地缓存中的openID，且每个微信号的缓存是独立的，不会产生干扰。
+        if (code != "") {
+            String codeUrlStr = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
+                    + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
+            System.out.println("=====发送code请求的链接为：" + codeUrlStr);
+            URL codeUrl = new URL(codeUrlStr);
+            URLConnection codeCon = codeUrl.openConnection();
+            BufferedReader codeBr = new BufferedReader(new InputStreamReader(codeCon.getInputStream()));
+            StringBuffer codeSbf = new StringBuffer();
+            String codeLine = "";
+            while ((codeLine = codeBr.readLine()) != null) {
+                codeSbf.append(codeLine);
+            }
+            String codeRetStr = codeSbf.toString();
+            System.out.println("=====Code请求返回码为：" + codeRetStr);
+            try {
+                JSONObject openidJs = new JSONObject(codeRetStr);
+                openID = openidJs.getString("openid");
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("=====openid为：" + openID);
+        }
 
         //get openid from wei xin after end
-        String codeUrlStr = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
-                + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
-        System.out.println("=====发送code请求的链接为：" + codeUrlStr);
-        URL codeUrl = new URL(codeUrlStr);
-        URLConnection codeCon = codeUrl.openConnection();
-        BufferedReader codeBr = new BufferedReader(new InputStreamReader(codeCon.getInputStream()));
-        StringBuffer codeSbf = new StringBuffer();
-        String codeLine = "";
-        while ((codeLine = codeBr.readLine()) != null) {
-            codeSbf.append(codeLine);
-        }
-        String codeRetStr = codeSbf.toString();
-        System.out.println("=====Code请求返回码为：" + codeRetStr);
-        try {
-            JSONObject openidJs = new JSONObject(codeRetStr);
-            openID = openidJs.getString("openid");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("=====openid为：" + openID);
-
         wxpay putOpenID = new wxpay();
         putOpenID.putOpenID(openID);
 
@@ -74,11 +88,11 @@ public class wxGetCourseByOpenID extends HttpServlet {
         }
         String jsonStr = jsonObj.toString();
         String jsonData = "CTAG=settings.ChengChuangCourse&SCOBJ=" + jsonStr;
-        String urlStr = "http://192.168.0.110:8080/lindasrv/JSONServlet";
+        String urlStr = "https://lynda.lidayun.cn/JSONServlet";
         wxInsertOpenIDCourseID wxIN = new wxInsertOpenIDCourseID();
         JSONObject jsonRes = new JSONObject();
         try {
-            wxIN.urlCon(urlStr,jsonData);
+            jsonRes = wxIN.urlCon(urlStr,jsonData);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -91,11 +105,11 @@ public class wxGetCourseByOpenID extends HttpServlet {
 
     final static Gson m_gson = new GsonBuilder().setPrettyPrinting().create();
 
-    private void sendScResponse(Object obj, HttpServletResponse response) throws ServletException,IOException {
+    private void sendScResponse(JSONObject obj, HttpServletResponse response) throws ServletException,IOException {
         response.setContentType("text/javascript;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         if (obj != null) {
-            String responseStr = m_gson.toJson(obj);
+            String responseStr = obj.toString();
             response.getWriter().write(responseStr);
         }
     }

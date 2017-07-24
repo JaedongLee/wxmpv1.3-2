@@ -13,30 +13,48 @@
     <link rel="stylesheet" href="../css/whole.css">
     <title>承创管理后台</title>
 </head>
-<body class="backstage center-block">
+<body class="backstage">
+    <div class="col-md-3">
     <form>
         <h2 class="">课程上传</h2>
         <div class="form-group">
             <label for="courseName">课程名称:</label>
-            <input type="text" class="form-control" id="courseName" placeholder="输入课程名称">
+            <input type="text" required="required" class="form-control" id="courseName" placeholder="输入课程名称"/>
         </div>
         <div class="form-group">
             <label for="courseDescription">课程简介:</label>
-            <input type="text" class="form-control" id="courseDescription" placeholder="输入课程简介">
+            <input type="text" class="form-control" id="courseDescription" placeholder="输入课程简介"/>
         </div>
         <div class="form-group">
-            <label for="courseID">子目录编号:</label>
-            <input type="text" class="form-control" id="categoryID" placeholder="输入子目录编号">
+            <label for="categoryID">子目录编号:</label>
+            <input type="number" required="required" class="form-control" id="categoryID" placeholder="输入子目录编号" min="19"/>
         </div>
         <div class="form-group">
-            <label for="courseID">价格:</label>
-            <input type="text" class="form-control" id="categoryPrice" placeholder="输入价格">
+            <label for="coursePrice">价格:</label>
+            <input onkeyup="value=value.replace(/[^\d.]/g,'')" required="required" class="form-control" id="coursePrice" placeholder="输入价格"/>
         </div>
         <div class="form-group">
             <label for="courseFile">文件上传:</label>
             <input type="file" id="courseFile"/>
         </div>
         <button type="submit" class="btn btn-default" onclick="insertCourse()">课程提交</button>
-    </form> 
+    </form>
+    <form>
+        <h2 class="">目录上传</h2>
+        <div class="form-group">
+            <label for="categoryName">目录名称:</label>
+            <input type="text" required="required" class="form-control" id="categoryName" placeholder="输入课程名称">
+        </div>
+        <div class="form-group">
+            <label for="categoryDescription">目录简介:</label>
+            <input type="text" class="form-control" id="categoryDescription" placeholder="输入课程简介">
+        </div>
+        <div class="form-group">
+            <label for="categoryParentID">父目录编号:</label>
+            <input type="number" required="required" class="form-control" id="categoryParentID" placeholder="输入父目录编号" min="4" max="18"/>
+        </div>
+        <button type="submit" class="btn btn-default" onclick="insertCategory()">目录提交</button>
+    </form>
+    </div>
 </body>
 </html>

@@ -87,6 +87,7 @@ public class WxCacheCountSend extends HttpServlet {
     static int tokenExpiresIn;
     static String ticket;
     static int ticketExpiresIn;
+    static String line;
 
     public String PutToken(String token){
         return token;
@@ -105,6 +106,10 @@ public class WxCacheCountSend extends HttpServlet {
     public int PutTicketExpiresIn(int ticketExpiresIn){
         System.out.println("=====获取的来自wxgettokenandticket的ticket的有效时间为：" + ticketExpiresIn);
         return ticketExpiresIn;
+    }
+    public String PutLine(String line){
+        System.out.println("=====获取的来自wxgettokenandticket的回复信息为：" + line);
+        return line;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

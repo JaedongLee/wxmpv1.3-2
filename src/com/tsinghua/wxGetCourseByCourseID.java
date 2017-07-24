@@ -43,7 +43,7 @@ public class wxGetCourseByCourseID extends HttpServlet {
         }
         String jsonStr = jsonObj.toString();
         String jsonData = "CTAG=settings.ChengChuangCourse&SCOBJ=" + jsonStr;
-        String urlStr = "http://192.168.0.110:8080/lindasrv/JSONServlet";
+        String urlStr = "https://lynda.lidayun.cn/JSONServlet";
         wxInsertOpenIDCourseID wxIn = new wxInsertOpenIDCourseID();
 
         JSONObject jsonRes = wxIn.urlCon(urlStr,jsonData);

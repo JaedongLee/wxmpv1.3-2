@@ -20,9 +20,26 @@ import java.net.URLConnection;
  */
 @WebServlet(name = "wxInsertOpenIDCourseID")
 public class wxInsertOpenIDCourseID extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String openID = openIDCourseID[0];
-        String courseID = openIDCourseID[1];
+        BufferedReader codeGetbr = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        StringBuffer codeGetSbf = new StringBuffer();
+        String codeGetLine;
+        String code = "";
+        for (codeGetLine = codeGetbr.readLine();codeGetLine != null; codeGetLine = codeGetbr.readLine()) {
+            codeGetSbf.append(codeGetLine);
+        }
+        String st = codeGetSbf.toString();
+        JSONObject jsonObject = new JSONObject();
+        String openID= "";
+        String courseID = "";
+        try {
+            jsonObject = new JSONObject(st);
+            openID = jsonObject.getString("openID");
+            courseID = jsonObject.getString("courseID");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         String type = "CreateUserCourse";
         JSONObject jsonID = new JSONObject();
         try {
@@ -35,7 +52,7 @@ public class wxInsertOpenIDCourseID extends HttpServlet {
         String jsonStr = jsonID.toString();
         String jsonData = "CTAG=settings.ChengChuangCourse&SCOBJ=" + jsonStr;
         System.out.println(jsonData);
-        String urlStr = "http://192.168.0.110:8080/lindasrv/JSONServlet";
+        String urlStr = "https://lynda.lidayun.cn/JSONServlet";
         JSONObject jsonRes = new JSONObject();
         try {
             jsonRes = urlCon(urlStr,jsonData);
@@ -43,8 +60,7 @@ public class wxInsertOpenIDCourseID extends HttpServlet {
             e.printStackTrace();
         }
         System.out.println(jsonRes);
-
-
+        sendScResponse(jsonRes,response);
 
     }
 
@@ -52,11 +68,6 @@ public class wxInsertOpenIDCourseID extends HttpServlet {
         this.doPost(request,response);
     }
 
-    static String[] openIDCourseID;
-
-    public String[] getOpenIDCourseID(String[] array) {
-        return openIDCourseID;
-    }
 
     public JSONObject urlCon(String urlStr,String string) throws org.json.JSONException,ServletException, IOException {
         PrintWriter out = null;
@@ -82,5 +93,15 @@ public class wxInsertOpenIDCourseID extends HttpServlet {
         return json;
 
     }
+
+    private void sendScResponse(JSONObject obj, HttpServletResponse response) throws ServletException,IOException {
+        response.setContentType("text/javascript;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        if (obj != null) {
+            String responseStr = obj.toString();
+            response.getWriter().write(responseStr);
+        }
+    }
+
 
 }

@@ -20,6 +20,10 @@ addLoadEvent(getCourseByCategoryId);
 addLoadEvent(createSubInterfaceView);
 
 addLoadEvent(alertTest);
+//
+// window.onunload = function () {
+//     sessionStorage.reloadTimes = 0;
+// };
 
 function alertTest() {
     console.log("addLoadEvent运行成功");
@@ -82,7 +86,7 @@ function createSubInterfaceView() {
         for(i=0;i<courseData.length;i++) {
             var id = "#" + CategoryID;
             var content = $('<li class="container"><p>' + courseData[i].CreationTime + 
-            '</p><p class="pull-right">【未收听】</p><div><p>' + courseData[i].CourseName + '</p><span class="pull-right glyphicon glyphicon-yen" id="course'
+            '</p><p class="pull-right">【未收听】</p><div><p>' + courseData[i].CourseName + '</p><span class="pull-right" id="course'
              + courseData[i].CourseID + '" onclick="wxpay()">点击购买</span></div>');
             $(id).append(content);
         }
@@ -94,35 +98,52 @@ function createSubInterfaceView() {
 //send code to get courseIDs by openid which got by code in after-end
 function sendCode() {
     var category = getUrlParameterConfig();
-    var code = category[3];
+    var Json = {};
+    if (!localStorage.openIDSub) {
+        var category = getUrlParameterConfig();
+        var code = category[3];
+        Json.code = code;
+    } else {
+        var openID = localStorage.openIDSub;
+        Json.openID = openID;
+    }
+    var JsonStr = JSON.stringify(Json);
     $.ajax({
         type: "Post",
         url: "../wxgetcoursebyopenid",
-        data: code,
+        data: JsonStr,
         datatype: "json",
         asyns: false,
         success: function (data) {
             var jsObj = eval('(' + data + ')');
             var ary = jsObj.listOfChengChuangCourse;
-            for(i=0;i<ary.length;i++) {
+            var openID = jsObj.WXUsersOpenID;
+            localStorage.openIDSub = openID;
+            for (i = 0; i < ary.length; i++) {
                 var courseID = "";
-                courseID = "course" + ary[i].CourseID;
+                courseID = "course" + ary[i].ID;
                 var ele = document.getElementById(courseID);
+                var subSubUrl = "./SubSubInterfaceTemplet.html?courseID=" + ary[i].ID + "&categoryID=" + category[0] + "&categoryName=" + category[1] + "&categoryDescription=" + category[2];
                 if (ele) {
                     ele.removeAttribute("onclick");
-                    ele.textContent= "您已购买";
+                    var addLink = $('<a href=' + '"./SubSubInterfaceTemplet.html?courseID=' + ary[i].ID + '&categoryID=' + category[0] + '&categoryName=' + category[1] + '&categoryDescription=' + category[2] + '">您已购买，请点击链接直接收听</a>');
+                    $("#" + courseID).append(addLink);
+                    // ele.textContent = "sdada";
                 }
             }
+        },
+        error: function () {
+            document.write("<h3>无法连接到服务器，请稍后再试</h3>");
         }
-    })    
+    });
 }
 
 //wxpay after send code
 function wxpay() {
-    clickTimes ++;
+    // clickTimes ++;
     var category = getUrlParameterConfig()
     var courseID = event.target.id.substr(6);
-    if(clickTimes ==1) {
+    // if(clickTimes ==1) {
         $.ajax({
             type: "Post",
             url: "../wxpay",
@@ -132,7 +153,7 @@ function wxpay() {
             success: function (data) {
                 var jsonStr = jsonToJsobj(data);
                 var jsObj = eval('(' + jsonStr + ')');
-                localStorage.jsonStr = jsonStr;
+                //localStorage.jsonStr = jsonStr;
                 wx.chooseWXPay({
                     appId: 'wx089d88a718cffb12',
                     timestamp: jsObj.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
@@ -142,7 +163,30 @@ function wxpay() {
                     paySign: jsObj.paySign, // 支付签名
                     success: function () {
                         // 支付成功后的回调函数
-                        alert('支付成功');
+                        var openIDAndCourseIDJson = {};
+                        if (localStorage.openIDSub !== null) {
+                            openIDAndCourseIDJson.openID = localStorage.openIDSub;
+                            openIDAndCourseIDJson.courseID = courseID;
+                            var openIDAndCourseID = JSON.stringify(openIDAndCourseIDJson);
+                        }else {
+                            document.write("无法获取用户openID！！")
+                        }
+                        $.ajax({
+                            type: "Post",
+                            url: "../wxinsertopenidcourseid",
+                            data: openIDAndCourseID,
+                            datatype: "json",
+                            processData: false,
+                            asyns: false,
+                            success: function (data) {
+                                var jsObj = eval('(' + data + ')');
+                                if (jsObj.status) {
+                                    alert("购买信息提交成功，商品购买成功！");
+                                }else {
+                                    alert("商品购买失败，请退出后重新进入购买！");
+                                }
+                            }
+                        })
                         window.location.href="./SubSubInterfaceTemplet.html?courseID=" + courseID + "&categoryID=" + category[0] + "&categoryName=" + category[1] + "&categoryDescription=" + category[2];
                     },
                     cancel: function () {
@@ -155,7 +199,8 @@ function wxpay() {
             }
         })
 
-    }/*else {
+    // }
+    /*else {
         var jsonStr = localStorage.jsonStr;
         var jsObj = eval('(' + jsonStr + ')');
         wx.chooseWXPay({

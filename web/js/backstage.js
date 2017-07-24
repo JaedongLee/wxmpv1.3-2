@@ -34,30 +34,36 @@ function createBackstageListView() {
     if(!categoryData) {
         document.write("后台无法获得课程的目录数据！！");
     }else{
+        //var categoryData = category.listOfChengChuangCategory;
         for(i=0;i<3;i++) {
-            var title = $('<h2' + 'id=title"' + categoryData[i].categoryID + '">' + '总目录为：' + categoryData[i].categoryName + '</h2>');
-            $("body").prepend(title);
-            for(j=0;j<categoryData.length;j++)
-            if(categoryData[i].categoryID == categoryData[j].parentID) {
-                var subTitle = $('<h3 ' + 'id="subTitle' + categoryData[j].categoryID + '">' + '分目录为：' + categoryData[j].categoryID + '. ' + categoryData[j].categoryName + '</h3>');
-                var id = "#title" + categoryData[i].categoryID;
-                $(id).append(subTitle);
-                for(m=j+1;m<categoryData.length;m++) {
-                    if(categoryData[j].categoryID == categoryData[m].parentID) {
-                        var subSubTitle = $('<h4 ' + 'id="subSubTitle' + categoryData[m].categoryID + '">' + '子目录为：' + categoryData[m].categoryID +
-                         '.' + categoryData[m].categoryName + '</h4><button onclick="deleteCategoryByCategoryID()">删除子目录</button><p>课程为：</p>')
-                        var subID = "#subTitle" + categoryData[j].categoryID;
-                        $(subID).append(subSubTitle);
-                        for(n=0;n<courseData.length;n++) {
-                            if(courseData[n].CategoryID == categoryData[m].categoryID) {
-                                var content = $('<p ' + 'id="course' + courseData[n].CourseID + '">' + courseData[n].CourseName + 
-                                '</p><button onclick="deleteCourseByCourseID()">删除课程</button>');
-                                $(subSubTitle).append(content);
+            var title = $('<div ' + 'id="title' + categoryData[i].categoryID + '" class="col-md-3"><h1 class="text-center text-primary">' + categoryData[i].categoryName + '</h1></div>');
+            $("body").append(title);
+            for(j=0;j<categoryData.length;j++) {
+                if(categoryData[i].categoryID == categoryData[j].parentID) {
+                    //var subTitle  = $('<h3>警告警告！</h3>');
+                    var subTitle = $('<div ' + 'id="subTitle' + categoryData[j].categoryID + '"><div><h2 class="text-center text-success">' + categoryData[j].categoryID + '. ' + categoryData[j].categoryName + '</h2></div></div>');
+                    var id = "#title" + categoryData[i].categoryID;
+                    $(id).append(subTitle);
+                    for(m=j;m<categoryData.length;m++) {
+                        if(categoryData[j].categoryID == categoryData[m].parentID) {
+                            var subSubTitle = $('<div class="clearfix  panel panel-default"><div class="clearfix"><div class="text-primary pull-left btn cursor-keep">'
+                                + '<strong>' + categoryData[m].categoryID +
+                             '.' + categoryData[m].categoryName + '</strong>' + '</div><button class="btn btn-default btn-xl pull-right" onclick="deleteCategoryByCategoryID()">删除子目录</button></div><div class="course-style" ' + 'id="subSubTitle' + categoryData[m].categoryID + '"></div></div>')
+                            var subID = "#subTitle" + categoryData[j].categoryID;
+                            $(subID).append(subSubTitle);
+                            for(n=0;n<courseData.length;n++) {
+                                if(courseData[n].CategoryID == categoryData[m].categoryID) {
+                                    var content = $('<div class="clearfix panel panel-default"><div class="text-success pull-left btn cursor-keep"' + 'id="course' + courseData[n].CourseID + '">' + courseData[n].CourseName +
+                                    '</div><button class="btn btn-default btn-xl pull-right" onclick="deleteCourseByCourseID()">删除课程</button></div>');
+                                    var subSubID = "#subSubTitle" + categoryData[m].categoryID;
+                                    $(subSubID).append(content);
+                                }
                             }
                         }
                     }
                 }
             }
+
         }
     }
 }
@@ -99,21 +105,30 @@ function insertCourse() {
     var courseName = document.getElementById("courseName").value;
     var courseDescription = document.getElementById("courseDescription").value;
     var categoryID = document.getElementById("categoryID").value;
+    var categoryIDInt = parseInt(categoryID);
+    if (categoryIDInt<19||isNaN(categoryIDInt)) {
+        alert("请输入合法的子目录编号（子目录编号应不小于19）！");
+        return;
+    }
     var coursePrice = document.getElementById("coursePrice").value;
+    if (/*parseFloat(coursePrice)<0.01||*/((coursePrice == null)||(coursePrice == ""))) {
+        alert("请输入合法的价格（价格应不小于0.01元）！");
+        return;
+    }
+    var courseType = "createCourse";
     //获取文件名
     var file = $("#courseFile").val();
-    if(file != null) {
+    if((file != null)&&(file != "")) {
         var pos = file.lastIndexOf("\\");
         var fileName = file.substring(pos+1);
     }
     else {
-        alert("请上传文件")
+        alert("请上传文件");
         return;
     }
     uploadFile();
-    courseType = "createCourse";
     courseURL = "https://s3.cn-north-1.amazonaws.com.cn/wx-mp-chengchuang/audio/" + fileName;
-    var insertCourseRes = chengChuangCourse(courseType,"","",categoryID,"",courseName,courseDescription,"");
+    chengChuangCourse(courseType,"","",categoryID,"",courseName,courseDescription,"",coursePrice);
 
 }
 
@@ -128,14 +143,16 @@ function insertCategory() {
 
 //通过课程ID删除课程
 function deleteCourseByCourseID() {
-    var courseStr = event.target.id;
+    var courseStr = event.target.previousSibling.id;
     var courseID = courseStr.substr(6);
-    var deleteCourseRes = chengChuangCourse("deleteCourseByCourseID","","",courseID,"","","","");
+    chengChuangCourse("deleteCourseByCourseID",courseID,"","","","","","");
+    window.location.reload();
 }
 
 //通过子目录ID删除子目录
 function deleteCategoryByCategoryID() {
-    var categoryStr = event.target.id;
+    var categoryStr = event.target.parentNode.nextSibling.id;
     var categoryID = categoryStr.substr(11);
-    var deleteCategoryRes = chengchuangCategory("deleteCategoryByCategoryID",categoryID,"","","");
+    chengchuangCategory("deleteCategoryByCategoryID",categoryID,"","","");
+    window.location.reload();
 }

@@ -18,7 +18,8 @@ function fatherInterface() {
     var Categoryjson = "CTAG=settings.Category&SCOBJ=" + JSON.stringify(Category);
     $.ajax({
         type: 'post',
-        url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
+        // url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
+        url: 'https://lynda.lidayun.cn/JSONServlet',
         data: Categoryjson,
         datatype: 'json',
         success: function(data) {
@@ -141,14 +142,5 @@ function fatherInterface() {
     });
 }
 
-//FatherInterfaceTemplet jump to SubInterfaceTemplet with id
-function jumpTo(j) {
-    var categoryID = sessionStorage["category" + j + "categoryID"];
-    var categoryName = sessionStorage["category" + j + "categoryName"];
-    var categoryDescription = sessionStorage["category" + j + "categoryDescription"];
-    var redirect_uri = encodeURIComponent("http://176j551f28.iask.in/pages/SubInterfaceTemplet.html?categoryID="
-        + categoryID + "&categoryName=" + categoryName + "&categoryDescription=" + categoryDescription);
-    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_base#wechat_redirect";
-    window.location.assign(link);
-}
+
 
