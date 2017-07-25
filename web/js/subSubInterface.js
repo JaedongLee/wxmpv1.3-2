@@ -59,13 +59,16 @@ function getCourseByCourseID() {
 //create viewer
 function createSubSubInterfaceView() {
     var jsonData = getCourseByCourseID();
+    if ((jsonData == null)||(jsonData.length == 0)) {
+        document.write("无法连接服务器，请稍后再试！")
+    }
     var categoryName = jsonData.dataKey[2];
     var categoryDescription = jsonData.dataKey[3];
     var title = $('<div class="interface-title-container"><img src="../images/interface/2.png" alt="2">' +
-        '<h3 class="interface-title"><strong>' + jsonData.dataValue[0].Name + '</strong></h3><h3 class="interface-subtitle">'
-        + categoryName + '</h3></div><div class="container subSubInt-1"><h4 class="text-center">课程简介</h4><p>'
-        + categoryDescription + '</p></div><div class="container subSubInt-2" onclick="audioplay()"><h4>点击收听<span class="glyphicon glyphicon-volume-down pull-right"></span>'
-        + '<audio class="audio" src="' + jsonData.dataValue[0].URL+ '">请使用微信内浏览器加载页面</audio></h4></div><div class="container" id="courseDescription">' + jsonData.dataValue[0].Description + '......</div>'
+        '<h3 class="interface-title">' + jsonData.dataValue[0].Name + '</h3><h4 class="interface-subtitle">'
+        + categoryName + '</h4></div><div class="container subSubInt-1 panel panel-default"><h4 class="text-center panel-heading">课程简介</h4><div class="panel-body">'
+        + categoryDescription + '</div></div><div class="container subSubInt-2" onclick="audioplay()"><h4>点击收听<span class="glyphicon glyphicon-volume-down pull-right"></span>'
+        + '<audio class="audio" src="' + jsonData.dataValue[0].URL+ '">请使用微信内浏览器加载页面</audio></h4></div><div class="well container" id="courseDescription">' + jsonData.dataValue[0].Description + '......</div>'
         + '<div class="container"><div class="interface-title-container subSubInt-img"></div></div>');
     $("body").append(title);
 }

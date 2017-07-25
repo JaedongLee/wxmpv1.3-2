@@ -46,15 +46,15 @@ function createBackstageListView() {
                     $(id).append(subTitle);
                     for(m=j;m<categoryData.length;m++) {
                         if(categoryData[j].categoryID == categoryData[m].parentID) {
-                            var subSubTitle = $('<div class="clearfix  panel panel-default"><div class="clearfix"><div class="text-primary pull-left btn cursor-keep">'
+                            var subSubTitle = $('<div class="clearfix"><div class="course-style  panel panel-default" ' + 'id="subSubTitle' + categoryData[m].categoryID + '"><div class="clearfix panel-heading"><div class="text-primary pull-left cursor-keep title-left">'
                                 + '<strong>' + categoryData[m].categoryID +
-                             '.' + categoryData[m].categoryName + '</strong>' + '</div><button class="btn btn-default btn-xl pull-right" onclick="deleteCategoryByCategoryID()">删除子目录</button></div><div class="course-style" ' + 'id="subSubTitle' + categoryData[m].categoryID + '"></div></div>')
+                                '.' + categoryData[m].categoryName + '</strong>' + '</div><button class="btn btn-default pull-right" onclick="deleteCategoryByCategoryID()">删除子目录</button></div></div></div>')
                             var subID = "#subTitle" + categoryData[j].categoryID;
                             $(subID).append(subSubTitle);
                             for(n=0;n<courseData.length;n++) {
                                 if(courseData[n].CategoryID == categoryData[m].categoryID) {
-                                    var content = $('<div class="clearfix panel panel-default"><div class="text-success pull-left btn cursor-keep"' + 'id="course' + courseData[n].CourseID + '">' + courseData[n].CourseName +
-                                    '</div><button class="btn btn-default btn-xl pull-right" onclick="deleteCourseByCourseID()">删除课程</button></div>');
+                                    var content = $('<div class="clearfix panel-body"><div class="text-success pull-left cursor-keep title-left"' + 'id="course' + courseData[n].CourseID + '">' + courseData[n].CourseName +
+                                    '</div><button class="btn btn-default pull-right" onclick="deleteCourseByCourseID()">删除课程</button></div>');
                                     var subSubID = "#subSubTitle" + categoryData[m].categoryID;
                                     $(subSubID).append(content);
                                 }
@@ -108,12 +108,13 @@ function insertCourse() {
     var categoryIDInt = parseInt(categoryID);
     if (categoryIDInt<19||isNaN(categoryIDInt)) {
         alert("请输入合法的子目录编号（子目录编号应不小于19）！");
-        return;
+        return false;
     }
     var coursePrice = document.getElementById("coursePrice").value;
-    if (/*parseFloat(coursePrice)<0.01||*/((coursePrice == null)||(coursePrice == ""))) {
+    var priceFloat = parseFloat(coursePrice);
+    if (/*parseFloat(coursePrice)<0.01||*/((coursePrice == null)||(coursePrice == "")||(priceFloat<0.01))) {
         alert("请输入合法的价格（价格应不小于0.01元）！");
-        return;
+        return false;
     }
     var courseType = "createCourse";
     //获取文件名
@@ -124,7 +125,7 @@ function insertCourse() {
     }
     else {
         alert("请上传文件");
-        return;
+        return false;
     }
     uploadFile();
     courseURL = "https://s3.cn-north-1.amazonaws.com.cn/wx-mp-chengchuang/audio/" + fileName;
@@ -151,7 +152,7 @@ function deleteCourseByCourseID() {
 
 //通过子目录ID删除子目录
 function deleteCategoryByCategoryID() {
-    var categoryStr = event.target.parentNode.nextSibling.id;
+    var categoryStr = event.target.parentNode.parentNode.id;
     var categoryID = categoryStr.substr(11);
     chengchuangCategory("deleteCategoryByCategoryID",categoryID,"","","");
     window.location.reload();

@@ -79,15 +79,19 @@ function createSubInterfaceView() {
     //sessionStorage.CategoryName = jsonData.dataKey[1];
     //sessionStorage.CategoryDescription = jsonData.dataKey[2];
     if(jsonData.dataKey[0]) {
-        var title = $('<div class="interface-title-container"><img src="../images/interface/1.png" alt="1"><h3 class="interface-title"><strong>' + CategoryName + 
-        '</strong></h3></div><div class="container interface-border"><h4 class="">课程简介</h4><p>' + CategoryDescription + 
+        var title = $('<div class="interface-title-container"><img src="../images/interface/2.png" alt="1"><h3 class="interface-title">' + CategoryName +
+        '</h3></div><div class="container interface-border panel panel-default"><div class="panel-heading"><h4>课程简介</h4></div><p class="panel-body">' + CategoryDescription +
         '</p></div><ul class="list-unstyled" id="' + CategoryID + '"><h4 class="container">收听列表</h4></ul>');
         $("body").append(title);
         for(i=0;i<courseData.length;i++) {
             var id = "#" + CategoryID;
-            var content = $('<li class="container"><p>' + courseData[i].CreationTime + 
-            '</p><p class="pull-right">【未收听】</p><div><p>' + courseData[i].CourseName + '</p><span class="pull-right" id="course'
-             + courseData[i].CourseID + '" onclick="wxpay()">点击购买</span></div>');
+            var longTime = courseData[i].CreationTime;
+            var creationTime = convertCreationTimeLength(longTime);
+            var price = parseFloat(courseData[i].Price).toFixed(2);//将数据库里传来的三位小数转换为两位小数
+            console.log("price's type is:" + typeof(price));
+            var content = $('<li class="container panel panel-default"><div class="panel-heading"><p>' + creationTime +
+            '</p><p class="pull-right">价格：' + price + '元</p></div><div class="panel-body"><p class="pull-left">' + courseData[i].CourseName + '</p><button class="pull-right btn btn-default" id="course'
+             + courseData[i].CourseID + '" onclick="wxpay()">点击购买</button></div><div class="panel-footer">课程简介：' + courseData[i].Description + '</div> ');
             $(id).append(content);
         }
     }else {
@@ -126,7 +130,8 @@ function sendCode() {
                 var subSubUrl = "./SubSubInterfaceTemplet.html?courseID=" + ary[i].ID + "&categoryID=" + category[0] + "&categoryName=" + category[1] + "&categoryDescription=" + category[2];
                 if (ele) {
                     ele.removeAttribute("onclick");
-                    var addLink = $('<a href=' + '"./SubSubInterfaceTemplet.html?courseID=' + ary[i].ID + '&categoryID=' + category[0] + '&categoryName=' + category[1] + '&categoryDescription=' + category[2] + '">您已购买，请点击链接直接收听</a>');
+                    ele.removeChild(ele.childNodes[0]);
+                    var addLink = $('<a href=' + '"./SubSubInterfaceTemplet.html?courseID=' + ary[i].ID + '&categoryID=' + category[0] + '&categoryName=' + category[1] + '&categoryDescription=' + category[2] + '">已购买，点击收听</a>');
                     $("#" + courseID).append(addLink);
                     // ele.textContent = "sdada";
                 }

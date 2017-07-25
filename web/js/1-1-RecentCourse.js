@@ -49,7 +49,8 @@ function viewRecentCoursePage() {
     }
     var categoryName = new Array("管理微课最新课程","专题讲座最新课程","解决方案最新课程");
     for (var i=0;i<3;i++) {
-        var ul = $('<ul class="list-unstyled" id="categoryID' + i + '"><h4 class="container"><strong>' + categoryName[i] + '</strong></h4></ul>');
+        var ul = $('<ul class="list-unstyled" id="categoryID' + i + '"><h4 class="container"><strong>' + categoryName[i]
+            + '</strong></h4></ul>');
         $("body").append(ul);
         var displayedCourseAmount;
         if (courseOrdered[i].length<5) {
@@ -58,29 +59,33 @@ function viewRecentCoursePage() {
             displayedCourseAmount = 4;
         }
         for (var j=0;j<displayedCourseAmount;j++) {
+            var longTime = courseOrdered[i][j].CreationTime;
+            var creationTime = convertCreationTimeLength(longTime);
             var categoryID = courseOrdered[i][j].CategoryID;
             var category = getCategoryByCategoryID(categoryID);
-/*            var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + courseOrdered[i][j].CourseName +
-                "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
-                courseOrdered[i][j].CourseDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='getCategoryByCategoryID(" + categoryID +");jumpToRecent(" + categoryID + ")' id='" +
-                courseOrdered[i][j].CourseID + "'>点击进入</a></div></div></div></li>");*/
-            var li = $('<li class="container"><p>' + courseOrdered[i][j].CreationTime +
-                '</p><p class="pull-right">【未收听】</p><div><p>' + courseOrdered[i][j].CourseName + '</p><span class="pull-right" id="course'
-                + courseOrdered[i][j].CourseID + '" onclick="wxpay()">点击购买</span></div>');
+            var price = parseFloat(courseOrdered[i][j].Price).toFixed(2);
+            /*            var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + courseOrdered[i][j].CourseName +
+                            "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
+                            courseOrdered[i][j].CourseDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='getCategoryByCategoryID(" + categoryID +");jumpToRecent(" + categoryID + ")' id='" +
+                            courseOrdered[i][j].CourseID + "'>点击进入</a></div></div></div></li>");*/
+            var li = $('<li class="container panel panel-default panel-danger"><div class="clearfix panel-heading"><div class="pull-left">' + creationTime +
+                '</div><div class="pull-right">价格：' + price + '元</div></div><div class="clearfix panel-body"><div class="pull-left">' +
+                '' + courseOrdered[i][j].CourseName + '</div><button class="pull-right btn btn-default btn-sm" id="course'
+                + courseOrdered[i][j].CourseID + '" onclick="wxpay()">点击购买</button></div><div class="panel-footer">课程简介：' + courseOrdered[i][j].Description + '</div> ');
             var categoryID = "#categoryID" + i;
             $(categoryID).append(li);
         }
     }
 }
-
-function jumpToRecent(j) {
-    var categoryID = sessionStorage["category" + j + "categoryID"];
-    var categoryName = sessionStorage["category" + j + "categoryName"];
-    var categoryDescription = sessionStorage["category" + j + "categoryDescription"];
-    var redirect_uri = encodeURIComponent("http://176j551f28.iask.in/pages/1-follow/1-1-RecentCourse.html");
-    var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=http%3a%2f%2f176j551f28.iask.in%2fpages%2f1-follow%2f1-1-RecentCourse.html&response_type=code&scope=snsapi_base#wechat_redirect";
-    window.location.assign(link);
-}
+//
+// function jumpToRecent(j) {
+//     var categoryID = sessionStorage["category" + j + "categoryID"];
+//     var categoryName = sessionStorage["category" + j + "categoryName"];
+//     var categoryDescription = sessionStorage["category" + j + "categoryDescription"];
+//     var redirect_uri = encodeURIComponent("http://176j551f28.iask.in/pages/1-follow/1-1-RecentCourse.html");
+//     var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=http%3a%2f%2f176j551f28.iask.in%2fpages%2f1-follow%2f1-1-RecentCourse.html&response_type=code&scope=snsapi_base#wechat_redirect";
+//     window.location.assign(link);
+// }
 
 function getUrlParameterConfig() {
     var Request = new Object();
@@ -93,7 +98,6 @@ function getUrlParameterConfig() {
 }
 
 function sendCode() {
-    var category = getUrlParameterConfig();
     var Json = {};
     if (!localStorage.openIDSub) {
         var category = getUrlParameterConfig();
@@ -118,11 +122,18 @@ function sendCode() {
             for (i = 0; i < ary.length; i++) {
                 var courseID = "";
                 courseID = "course" + ary[i].ID;
+                var courseIDReal = ary[i].ID;
+                var categoryID = sessionStorage["course" + courseIDReal + "categoryID"];
+                var category = new Array(sessionStorage["category" + categoryID + "categoryID"],sessionStorage["category" + categoryID + "categoryName"],sessionStorage["category" + categoryID + "categoryDescription"]);
                 var ele = document.getElementById(courseID);
-                var subSubUrl = "./SubSubInterfaceTemplet.html?courseID=" + ary[i].ID + "&categoryID=" + category[0] + "&categoryName=" + category[1] + "&categoryDescription=" + category[2];
+                var subSubUrl = "../SubSubInterfaceTemplet.html?courseID=" + ary[i].ID + "&categoryID=" + category[0]
+                    + "&categoryName=" + category[1] + "&categoryDescription=" + category[2];
                 if (ele) {
                     ele.removeAttribute("onclick");
-                    var addLink = $('<a href=' + '"./SubSubInterfaceTemplet.html?courseID=' + ary[i].ID + '&categoryID=' + category[0] + '&categoryName=' + category[1] + '&categoryDescription=' + category[2] + '">您已购买，请点击链接直接收听</a>');
+                    ele.removeChild(ele.childNodes[0]);
+                    var addLink = $('<a href=' + '"../SubSubInterfaceTemplet.html?courseID=' + ary[i].ID + '&categoryID='
+                        + category[0] + '&categoryName=' + category[1] + '&categoryDescription=' + category[2]
+                        + '">已购买，点击收听</a>');
                     $("#" + courseID).append(addLink);
                     // ele.textContent = "sdada";
                 }
@@ -185,7 +196,8 @@ function wxpay() {
                             }
                         }
                     })
-                    window.location.href="./SubSubInterfaceTemplet.html?courseID=" + courseID + "&categoryID=" + categoryID + "&categoryName=" + categoryName + "&categoryDescription=" + categoryDescription;
+                    window.location.href="../SubSubInterfaceTemplet.html?courseID=" + courseID + "&categoryID="
+                        + categoryID + "&categoryName=" + categoryName + "&categoryDescription=" + categoryDescription;
                 },
                 cancel: function () {
                     alert("支付取消");

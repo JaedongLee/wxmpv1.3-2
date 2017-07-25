@@ -74,7 +74,7 @@ function fatherInterface() {
                             sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
                             sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
-                                "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
+                                "</div><div class='pull-right'><span></span></div></div><div class='clearfix'><div class='pull-left'>简介：" +
                                 ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
                                 ary[j].categoryID + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);
@@ -85,7 +85,7 @@ function fatherInterface() {
                 }
             }else if(urlRequest.indexOf("Lecture")>0) {
                 //遍历解决方案所包含的所有父课程
-                var parentCate = childJson.childJsonName1;
+                var parentCate = childJson.childJsonName2;
                 var para = parseInt(window.location.search.substr(1));//获取父课程的id
                 if(parentCate[para] != null) {
                     console.log(parentCate[para]);
@@ -99,7 +99,7 @@ function fatherInterface() {
                             sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
                             sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
-                                "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
+                                "</div><div class='pull-right'><span></span></div></div><div class='clearfix'><div class='pull-left'>简介：" +
                                 ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
                                 ary[j].categoryID + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);
@@ -110,7 +110,7 @@ function fatherInterface() {
                 }
             }else if (urlRequest.indexOf("Solution")>0) {
                 //遍历管理微课所包含的所有父课程
-                var parentCate = childJson.childJsonName1;
+                var parentCate = childJson.childJsonName3;
                 var para = parseInt(window.location.search.substr(1));//获取父课程的标志
                 if(parentCate[para] != null) {
                     console.log(parentCate[para]);
@@ -124,7 +124,7 @@ function fatherInterface() {
                             sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
                             sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
-                                "</div><div class='pull-right'><span>¥</span></div>元</div><div class='clearfix'><div class='pull-left'>简介：" +
+                                "</div><div class='pull-right'><span></span></div></div><div class='clearfix'><div class='pull-left'>简介：" +
                                 ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
                                 ary[j].categoryID  + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);

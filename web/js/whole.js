@@ -222,3 +222,14 @@ function jumpTo(j) {
     var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_base#wechat_redirect";
     window.location.assign(link);
 }
+
+//convert long creation time length to normal creation time length
+function convertCreationTimeLength(longTime) {
+    var normalTime = longTime.substr(0,19);
+    return normalTime;
+}
+
+//convert price length from three decimal places to two decimal places
+// function  convertPrice(price) {
+//     var convertedPrice = price.substr()
+// }
