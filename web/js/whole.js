@@ -204,12 +204,95 @@ function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,Cou
     return ajaxReturn;
 }
 
+function act(actName,actContent,ccActName,status,type) {
+    var act = {};
+    act.ActName = actName;
+    act.ActContent = actContent;
+    act.ccActName = ccActName;
+    act.status = status;
+    act.type = type;
+    var actjson = "CTAG=settings.Act&SCOBJ=" + JSON.stringify(act);
+    var ajaxReturn
+    $.ajax({
+        type: 'post',
+        //url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
+        url: 'https://lynda.lidayun.cn/JSONServlet',
+        data: actjson,
+        datatype: 'json',
+        async: false,
+        success: function(data) {
+            var jsonObj = eval('(' + data + ')');
+            var actData = jsonObj.listOfAct;
+            // var test = courseDate[0].CourseName;
+            // console.log(typeof(jsonObj));
+            // console.log(typeof(test));
+            // return courseDate;
+            ajaxReturn = actData;
+        }
+    });
+    return ajaxReturn;
+
+}
+
+function actUser(company,trade,numberOfPeople,linkman,phone,email,actID,status,type) {
+    var actUser = {};
+    actUser.Company = "";
+    actUser.Trade = "";
+    actUser.NumbleOfPeople = "";
+    actUser.Linkman = "";
+    actUser.Phone = "";
+    actUser.Email = "";
+    actUser.ActID = "";
+    actUser.status = "";
+    actUser.type = "";
+    var actUserjson = "CTAG=settings.actUser&SCOBJ=" + JSON.stringify(actUser);
+    $.ajax({
+        type: 'post',
+        //url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
+        url: 'https://lynda.lidayun.cn/JSONServlet',
+        data: actUserjson,
+        datatype: 'json',
+        async: false,
+        success: function(data) {
+            var jsonObj = eval('(' + data + ')');
+            var actUserData = jsonObj
+            // var test = courseDate[0].CourseName;
+            // console.log(typeof(jsonObj));
+            // console.log(typeof(test));
+            // return courseDate;
+            ajaxReturn = actUserData;
+        }
+    });
+    return ajaxReturn;
+}
+
 function getCategoryByCategoryID(categoryID) {
     var category = chengchuangCategoryOverride("getCategoryByCategoryID",categoryID,"","","")
     sessionStorage["category" + categoryID + "categoryID"] = category.categoryID;
     sessionStorage["category" + categoryID + "categoryName"] = category.categoryName;
     sessionStorage["category" + categoryID + "categoryDescription"] = category.categoryDescription;
 
+}
+
+function createAct() {
+    var actName = document.getElementById("actName").value;
+    var actContent = document.getElementById("actContent").value;
+    act(actName,actContent,actName,"","CreateccAct");
+
+}
+
+function createActUser() {
+    var actID = document.getElementById("actID");
+    var company = document.getElementById("company");
+    var trade = document.getElementById("trade");
+    var numbleOfPeople = document.getElementById("numbleOfPeople");
+    var linkman = document.getElementById("linkman");
+    var phone = document.getElementById("phone");
+    var email = document.getElementById("email");
+    var res = actUser(company,trade,numbleOfPeople,linkman,phone,email,actID,"","CreateccActUser");
+    if (res.status != 0) {
+        document.write("提交失败，请稍后重试");
+    }
 }
 
 //FatherInterfaceTemplet jump to SubInterfaceTemplet with id

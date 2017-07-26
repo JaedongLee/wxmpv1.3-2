@@ -50,29 +50,46 @@ public class wxpay extends HttpServlet {
         for (codeGetLine = codeGetbr.readLine();codeGetLine != null; codeGetLine = codeGetbr.readLine()) {
             codeGetSbf.append(codeGetLine);
         }
-        String courseID = codeGetSbf.toString();
-        wxGetCourseByCourseID wxGC = new wxGetCourseByCourseID();
-        JSONObject jsonObj = new JSONObject();
+        String codeStr = codeGetSbf.toString();
+        JSONObject codeJson = new JSONObject();
+        String courseID;
+        String categoryPrice;
+        float feeFloat = 0f;
         try {
-            jsonObj = wxGC.getCourseByCourseID(courseID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String listStr = "";
-        JSONArray listAry = new JSONArray();
-        String feeStr = "";
-        JSONObject listObj = new JSONObject();
-        try {
-            listStr = jsonObj.getString("listOfChengChuangCourse");
-            listAry = new JSONArray(listStr);
-            listObj = listAry.getJSONObject(0);
-            feeStr = listObj.getString("Price");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        float feeFloat_cent = Float.parseFloat((feeStr));
-        float feeFloat = feeFloat_cent*100;
+            codeJson = new JSONObject(codeStr);
+            System.out.println(codeJson);
+            if (codeJson.has("courseID")) {
+                courseID = codeJson.getString("courseID");
+                wxGetCourseByCourseID wxGC = new wxGetCourseByCourseID();
+                JSONObject jsonObj = new JSONObject();
+                try {
+                    jsonObj = wxGC.getCourseByCourseID(courseID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String listStr = "";
+                JSONArray listAry = new JSONArray();
+                String feeStr = "";
+                JSONObject listObj = new JSONObject();
+                try {
+                    listStr = jsonObj.getString("listOfChengChuangCourse");
+                    listAry = new JSONArray(listStr);
+                    listObj = listAry.getJSONObject(0);
+                    feeStr = listObj.getString("Price");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                float feeFloat_cent = Float.parseFloat((feeStr));
+                feeFloat = feeFloat_cent*100;
 
+            }else if (codeJson.has("categoryPrice")) {
+                categoryPrice = codeJson.getString("categoryPrice");
+                float feeFloat_cent = Float.parseFloat((categoryPrice));
+                feeFloat = feeFloat_cent*100;
+            }
+        }catch (Exception e) {
+            e.getMessage();
+        }
 
         //统一下单所需要的参数
         String mch_id = "1482465612";//商户号

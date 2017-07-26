@@ -23,6 +23,10 @@ body.backstage {
     /*max-width: 800px;*/
 }
 
+#coursePrice {
+    width: 70%;
+}
+
 .panel-default>.panel-heading {
     color: #666;
 }

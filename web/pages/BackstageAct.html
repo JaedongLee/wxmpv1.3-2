@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/jquery-3.2.1.js"></script>
+    <!--<script src="../js/bootstrap.min.js"></script>-->
+    <script src="../js/aws-sdk-2.82.0.min.js"></script>
+    <script src="../js/whole.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/whole.css">
+    <title>承创活动管理后台</title>
+</head>
+<body class="backstage">
+    <div class="col-sm-4">
+        <form>
+            <h2 class="">活动创建</h2>
+            <div class="form-group">
+                <label for="actName">活动名称:</label>
+                <input type="text" required="required" class="form-control" id="actName" placeholder="输入活动名称">
+            </div>
+            <div class="form-group">
+                <label for="actContent">活动内容:</label>
+                <input type="text" class="form-control" id="actContent" placeholder="输入活动内容">
+            </div>
+            <button type="submit" class="btn btn-default" onmouseup="createAct()">活动发布</button>
+        </form>
+    </div>
+</body>
+</html>

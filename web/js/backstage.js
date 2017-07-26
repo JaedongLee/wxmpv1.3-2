@@ -63,7 +63,6 @@ function createBackstageListView() {
                     }
                 }
             }
-
         }
     }
 }
@@ -112,7 +111,7 @@ function insertCourse() {
     }
     var coursePrice = document.getElementById("coursePrice").value;
     var priceFloat = parseFloat(coursePrice);
-    if (/*parseFloat(coursePrice)<0.01||*/((coursePrice == null)||(coursePrice == "")||(priceFloat<0.01))) {
+    if ((coursePrice == null)||(coursePrice == "")) {
         alert("请输入合法的价格（价格应不小于0.01元）！");
         return false;
     }
@@ -156,4 +155,10 @@ function deleteCategoryByCategoryID() {
     var categoryID = categoryStr.substr(11);
     chengchuangCategory("deleteCategoryByCategoryID",categoryID,"","","");
     window.location.reload();
+}
+
+function setFreeCourse() {
+    var coursePrice = document.getElementById("coursePrice");
+    coursePrice.setAttribute("readonly","readonly");
+    coursePrice.value = 0;
 }

@@ -85,5 +85,12 @@
     <servlet-mapping>
         <servlet-name>wxgetcoursebycourseid</servlet-name>
         <url-pattern>/wxgetcoursebycourseid</url-pattern>
+    </servlet-mapping>    <servlet>
+    <servlet-name>wxinsertopenidcategoryid</servlet-name>
+    <servlet-class>com.tsinghua.wxInsertOpenIDCategoryID</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>wxinsertopenidcategoryid</servlet-name>
+        <url-pattern>/wxinsertopenidcategoryid</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -11,9 +11,9 @@
     <script src="../js/backstage.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/whole.css">
-    <title>承创管理后台</title>
+    <title>承创课程管理后台</title>
 </head>
-<body class="backstage">
+<body class="backstage" id="backstage">
     <div class="col-md-3">
     <form>
         <h2 class="">课程上传</h2>
@@ -29,9 +29,10 @@
             <label for="categoryID">子目录编号:</label>
             <input type="number" required="required" class="form-control" id="categoryID" placeholder="输入子目录编号" min="19"/>
         </div>
-        <div class="form-group">
-            <label for="coursePrice">价格:</label>
-            <input onkeyup="value=value.replace(/[^\d.]/g,'')" required="required" class="form-control" id="coursePrice" placeholder="输入价格"/>
+        <label for="coursePrice">价格:</label>
+        <div class="form-group clearfix">
+            <input onkeyup="value=value.replace(/[^\d.]/g,'')" required="required" class="form-control pull-left" id="coursePrice" placeholder="输入价格"/>
+            <button class="btn btn-default pull-right" type="button" onclick="setFreeCourse()">设为免费课程</button>
         </div>
         <div class="form-group">
             <label for="courseFile">文件上传:</label>
@@ -55,6 +56,7 @@
         </div>
         <button type="submit" class="btn btn-default" onmouseup="insertCategory()">目录提交</button>
     </form>
+
     </div>
 </body>
 </html>
