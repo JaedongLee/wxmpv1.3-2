@@ -69,11 +69,21 @@ function viewRecentCoursePage() {
                             courseOrdered[i][j].CourseDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='getCategoryByCategoryID(" + categoryID +");jumpToRecent(" + categoryID + ")' id='" +
                             courseOrdered[i][j].CourseID + "'>点击进入</a></div></div></div></li>");*/
             var li = $('<li class="container panel panel-default panel-danger"><div class="clearfix panel-heading"><div class="pull-left">' + creationTime +
-                '</div><div class="pull-right">价格：' + price + '元</div></div><div class="clearfix panel-body"><div class="pull-left">' +
+                '</div><div class="pull-right" id="priceOfCourse">价格：' + price + '元</div></div><div class="clearfix panel-body"><div class="pull-left">' +
                 '' + courseOrdered[i][j].CourseName + '</div><button class="pull-right btn btn-default btn-sm" id="course'
                 + courseOrdered[i][j].CourseID + '" onclick="wxpay()">点击购买</button></div><div class="panel-footer">课程简介：' + courseOrdered[i][j].Description + '</div> ');
             var categoryID = "#categoryID" + i;
             $(categoryID).append(li);
+            if (parseFloat(price) == 0.00) {
+                var courseID = "course" + courseOrdered[i][j].CourseID;
+                var ele = document.getElementById(courseID);
+                ele.removeAttribute("onclick");
+                ele.removeChild(ele.childNodes[0]);
+                var priceEle = document.getElementById("priceOfCourse");
+                priceEle.parentNode.removeChild(priceEle);
+                var addLink = $('<a href=' + '"./SubSubInterfaceTemplet.html?courseID=' + courseOrdered[i][j].CourseID + '&categoryID=' + category.categoryID + '&categoryName=' + category.categoryName + '&categoryDescription=' + category.categoryDescription + '">免费课程,点击收听</a>');
+                $("#" + courseID).append(addLink);
+            }
         }
     }
 }

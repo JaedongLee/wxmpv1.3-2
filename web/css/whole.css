@@ -24,7 +24,7 @@ body.backstage {
 }
 
 #coursePrice {
-    width: 70%;
+    width: 65%;
 }
 
 .panel-default>.panel-heading {
@@ -180,6 +180,11 @@ body.backstage {
 
 }
 
+.Activity li {
+    padding: 0;
+    margin: 1em;
+}
+
 .interface li {
     padding: 0;
     margin: 1em;
@@ -316,12 +321,12 @@ body.backstage .course-style {
 }
 
 body.backstage .title-left {
-    max-width: 70%;
+    max-width: 65%;
     line-height: 2;
 }
 
 body.recentCourse .panel-body .pull-left {
-    max-width: 70%;
+    max-width: 65%;
 }
 
 body.recentCourse a, a:active {
@@ -353,4 +358,29 @@ body.recentCourse .panel-body>.pull-right {
 body.recentCourse .panel-heading {
     background-color: #e67817;
     color: #fff;
+}
+
+pre {
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: inherit;
+    color: inherit;
+    overflow: inherit;
+    max-width: 65%;
+    white-space: pre-wrap;
+}
+
+.pull-left {
+    max-width: 65%;
+}
+
+.interface pre {
+    max-width: 100%;
+}
+
+.link-margin {
+    margin-top: 2em;
 }

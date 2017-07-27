@@ -211,18 +211,18 @@ function act(actName,actContent,ccActName,status,type) {
     act.ccActName = ccActName;
     act.status = status;
     act.type = type;
-    var actjson = "CTAG=settings.Act&SCOBJ=" + JSON.stringify(act);
+    var actjson = "CTAG=settings.ccAct&SCOBJ=" + JSON.stringify(act);
     var ajaxReturn
     $.ajax({
         type: 'post',
-        //url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
+        // url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
         url: 'https://lynda.lidayun.cn/JSONServlet',
         data: actjson,
         datatype: 'json',
         async: false,
         success: function(data) {
             var jsonObj = eval('(' + data + ')');
-            var actData = jsonObj.listOfAct;
+            var actData = jsonObj;
             // var test = courseDate[0].CourseName;
             // console.log(typeof(jsonObj));
             // console.log(typeof(test));
@@ -236,16 +236,16 @@ function act(actName,actContent,ccActName,status,type) {
 
 function actUser(company,trade,numberOfPeople,linkman,phone,email,actID,status,type) {
     var actUser = {};
-    actUser.Company = "";
-    actUser.Trade = "";
-    actUser.NumbleOfPeople = "";
-    actUser.Linkman = "";
-    actUser.Phone = "";
-    actUser.Email = "";
-    actUser.ActID = "";
-    actUser.status = "";
-    actUser.type = "";
-    var actUserjson = "CTAG=settings.actUser&SCOBJ=" + JSON.stringify(actUser);
+    actUser.Company = company;
+    actUser.Trade = trade;
+    actUser.NumbleOfPeople = numberOfPeople;
+    actUser.Linkman = linkman;
+    actUser.Phone = phone;
+    actUser.Email = email;
+    actUser.ActID = actID;
+    actUser.status = status;
+    actUser.type = type;
+    var actUserjson = "CTAG=settings.ActUser&SCOBJ=" + JSON.stringify(actUser);
     $.ajax({
         type: 'post',
         //url: 'http://192.168.0.110:8080/lindasrv/JSONServlet',
@@ -271,27 +271,52 @@ function getCategoryByCategoryID(categoryID) {
     sessionStorage["category" + categoryID + "categoryID"] = category.categoryID;
     sessionStorage["category" + categoryID + "categoryName"] = category.categoryName;
     sessionStorage["category" + categoryID + "categoryDescription"] = category.categoryDescription;
+    return category;
 
+}
+
+function getccActAll() {
+    var res = act("","","","","GetccActAll");
+    return res;
+}
+
+function getccActUserAll() {
+    var res = actUser("","","","","","","","","GetccActUserAll");
+    return res;
 }
 
 function createAct() {
     var actName = document.getElementById("actName").value;
     var actContent = document.getElementById("actContent").value;
-    act(actName,actContent,actName,"","CreateccAct");
+    var res = act(actName,actContent,"","","CreateccAct");
+    if (res.status != 0) {
+        alert("提交失败，请稍后重试！");
+        return false;
+    }else {
+        alert("提交成功");
+        return true;
+    }
 
 }
 
 function createActUser() {
-    var actID = document.getElementById("actID");
-    var company = document.getElementById("company");
-    var trade = document.getElementById("trade");
-    var numbleOfPeople = document.getElementById("numbleOfPeople");
-    var linkman = document.getElementById("linkman");
-    var phone = document.getElementById("phone");
-    var email = document.getElementById("email");
+    // var actID = document.getElementById("actID");
+    var actID = 2;
+    var company = document.getElementById("company").value;
+    var trade = document.getElementById("trade").value;
+    var numbleOfPeople = document.getElementById("numberOfPeople").value;
+    var linkman = document.getElementById("linkman").value;
+    var phone = document.getElementById("phone").value;
+    var email = document.getElementById("email").value;
+    if ((company.length <= 0)&&(trade.length <= 0)&&(numbleOfPeople.length <= 0)&&(linkman.length <= 0)&&(phone.length <= 0)&&(email.length <= 0)) {
+        alert('信息不能为空');
+        return false;
+    }
     var res = actUser(company,trade,numbleOfPeople,linkman,phone,email,actID,"","CreateccActUser");
     if (res.status != 0) {
-        document.write("提交失败，请稍后重试");
+        document.write("提交失败，请稍后重试!");
+    }else {
+        document.write("提交成功");
     }
 }
 
@@ -316,3 +341,27 @@ function convertCreationTimeLength(longTime) {
 // function  convertPrice(price) {
 //     var convertedPrice = price.substr()
 // }
+
+function showContent() {
+    var ele = event.target;
+    var parEle = ele.previousSibling;
+    var parNexEle = ele.parentNode.nextSibling;
+    if (parEle.hasAttribute("hidden")) {
+        parEle.removeAttribute("hidden");
+        parNexEle.setAttribute("hidden","hidden");
+    }else {
+        parEle.setAttribute("hidden","hidden");
+        parNexEle.removeAttribute("hidden");
+    }
+}
+
+function alertLength() {
+    var ele = event.target;
+    var eleValue = ele.value;
+    var eleLength = eleValue.length;
+    var maxLength = ele.getAttribute("maxlength");
+    var lengthInt = parseInt(maxLength);
+    if (eleLength>=lengthInt) {
+        alert("输入字符不能超过规定长度");
+    }
+}

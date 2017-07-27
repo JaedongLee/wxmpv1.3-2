@@ -67,7 +67,7 @@ function createSubSubInterfaceView() {
     var title = $('<div class="interface-title-container"><img src="../images/interface/2.png" alt="2">' +
         '<h3 class="interface-title">' + jsonData.dataValue[0].Name + '</h3><h4 class="interface-subtitle">'
         + categoryName + '</h4></div><div class="container subSubInt-1 panel panel-default"><h4 class="text-center panel-heading">课程简介</h4><div class="panel-body">'
-        + categoryDescription + '</div></div><div class="container subSubInt-2" onclick="audioplay()"><h4>点击收听<span class="glyphicon glyphicon-volume-down pull-right"></span>'
+        + categoryDescription + '</pre></div></div><div class="container subSubInt-2" onclick="audioplay()"><h4>点击收听<span class="glyphicon glyphicon-volume-down pull-right"></span><pre>'
         + '<audio class="audio" src="' + jsonData.dataValue[0].URL+ '">请使用微信内浏览器加载页面</audio></h4></div><div class="well container" id="courseDescription">' + jsonData.dataValue[0].Description + '......</div>'
         + '<div class="container"><div class="interface-title-container subSubInt-img"></div></div>');
     $("body").append(title);

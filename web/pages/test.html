@@ -5,9 +5,22 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/whole.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <input type="text" size="20" onkeydown="if(event.keyCode == 13) alert(/^\d+\.\d+$/.test(this.value));" />
+    <input type="text" maxlength="6" oninput="alertLength()"/>
+    <button type="submit">cheshi</button>
 </body>
+<script type="text/javascript">
+    window.onload = function addFloat() {
+        var a = parseFloat(0.00);
+        for (var i=0;i<2;i++) {
+            var b = parseFloat("5.67");
+            var c = a + b;
+            a = parseFloat(c.toFixed(2));
+            alert(a);
+        }
+    }
+</script>
 </html>
