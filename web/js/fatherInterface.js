@@ -73,9 +73,9 @@ function fatherInterface() {
                             sessionStorage["category" + j + "categoryID"] = ary[j].categoryID;
                             sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
                             sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
-                            var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
-                                "</div><div class='pull-right'><span></span></div></div><div class='clearfix'><div class='pull-left'>简介：" +
-                                ary[j].categoryDescription + "<span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
+                            var li = $("<li><div class='panel panel-default'><div class='clearfix panel-heading'><div class=''>" + ary[j].categoryName +
+                                "</div><div class='pull-right'><span></span></div></div><div class='clearfix panel-body'><div class='pull-left'>简介：</br><pre>" +
+                                ary[j].categoryDescription + "</pre><span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
                                 ary[j].categoryID + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }

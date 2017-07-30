@@ -9,7 +9,7 @@ addLoadEvent(sendCode)
 function getCourseByFatherCategoryID() {
     var courseDataJsonArray = new Array();
     for (var i=0;i<3;i++) {
-        courseDataJsonArray[i] = chengChuangCourse("getCourseByCategoryID","","",i+1,"","","","","");//array[i] begin with 0,categoryID begin with 1;
+        courseDataJsonArray[i] = chengChuangCourse("getCourseByCategoryID","","",i+1,"","","","","","");//array[i] begin with 0,categoryID begin with 1;
         console.log(courseDataJsonArray[i]);
         for (var j=0;j<courseDataJsonArray[i].length;j++) {
             var courseID = courseDataJsonArray[i][j].CourseID;
@@ -60,7 +60,7 @@ function viewRecentCoursePage() {
         }
         for (var j=0;j<displayedCourseAmount;j++) {
             var longTime = courseOrdered[i][j].CreationTime;
-            var creationTime = convertCreationTimeLength(longTime);
+            var creationTime = convertCreationTime(longTime);
             var categoryID = courseOrdered[i][j].CategoryID;
             var category = getCategoryByCategoryID(categoryID);
             var price = parseFloat(courseOrdered[i][j].Price).toFixed(2);
@@ -71,7 +71,7 @@ function viewRecentCoursePage() {
             var li = $('<li class="container panel panel-default panel-danger"><div class="clearfix panel-heading"><div class="pull-left">' + creationTime +
                 '</div><div class="pull-right" id="priceOfCourse">价格：' + price + '元</div></div><div class="clearfix panel-body"><div class="pull-left">' +
                 '' + courseOrdered[i][j].CourseName + '</div><button class="pull-right btn btn-default btn-sm" id="course'
-                + courseOrdered[i][j].CourseID + '" onclick="wxpay()">点击购买</button></div><div class="panel-footer">课程简介：' + courseOrdered[i][j].Description + '</div> ');
+                + courseOrdered[i][j].CourseID + '" onclick="wxpay()">点击购买</button></div><div class="panel-footer">课程简介：</br><pre>' + courseOrdered[i][j].Description + '</pre></div> ');
             var categoryID = "#categoryID" + i;
             $(categoryID).append(li);
             if (parseFloat(price) == 0.00) {
@@ -79,9 +79,9 @@ function viewRecentCoursePage() {
                 var ele = document.getElementById(courseID);
                 ele.removeAttribute("onclick");
                 ele.removeChild(ele.childNodes[0]);
-                var priceEle = document.getElementById("priceOfCourse");
-                priceEle.parentNode.removeChild(priceEle);
-                var addLink = $('<a href=' + '"./SubSubInterfaceTemplet.html?courseID=' + courseOrdered[i][j].CourseID + '&categoryID=' + category.categoryID + '&categoryName=' + category.categoryName + '&categoryDescription=' + category.categoryDescription + '">免费课程,点击收听</a>');
+                // var priceEle = document.getElementById("priceOfCourse");
+                // priceEle.parentNode.removeChild(priceEle);
+                var addLink = $('<a href=' + '"../SubSubInterfaceTemplet.html?courseID=' + courseOrdered[i][j].CourseID + '&categoryID=' + category.categoryID + '&categoryName=' + category.categoryName + '&categoryDescription=' + category.categoryDescription + '">免费课程,点击收听</a>');
                 $("#" + courseID).append(addLink);
             }
         }
@@ -163,10 +163,13 @@ function wxpay() {
     var categoryName = sessionStorage["category" + categoryID + "categoryName"];
     var categoryDescription = sessionStorage["category" + categoryID + "categoryDescription"];
     // if(clickTimes ==1) {
+    var courseIDJson = {};
+    courseIDJson.courseID = courseID;
+    var courseIDJsonStr = JSON.stringify(courseIDJson);
     $.ajax({
         type: "Post",
         url: "../../wxpay",
-        data: courseID,
+        data: courseIDJsonStr,
         datatype: "json",
         asyns: false,
         success: function (data) {

@@ -47,7 +47,7 @@ function getCourseByCourseID() {
     if(!CourseID) {
         document.write("getCourseByCourseID()无法获取到有效的CourseID!!");
     }else {
-        var courseData = chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName);
+        var courseData = chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName,"","");
         //get request value and response value together into json and return
         var jsonData ={};
         jsonData.dataKey = Ary;
@@ -66,9 +66,9 @@ function createSubSubInterfaceView() {
     var categoryDescription = jsonData.dataKey[3];
     var title = $('<div class="interface-title-container"><img src="../images/interface/2.png" alt="2">' +
         '<h3 class="interface-title">' + jsonData.dataValue[0].Name + '</h3><h4 class="interface-subtitle">'
-        + categoryName + '</h4></div><div class="container subSubInt-1 panel panel-default"><h4 class="text-center panel-heading">课程简介</h4><div class="panel-body">'
-        + categoryDescription + '</pre></div></div><div class="container subSubInt-2" onclick="audioplay()"><h4>点击收听<span class="glyphicon glyphicon-volume-down pull-right"></span><pre>'
-        + '<audio class="audio" src="' + jsonData.dataValue[0].URL+ '">请使用微信内浏览器加载页面</audio></h4></div><div class="well container" id="courseDescription">' + jsonData.dataValue[0].Description + '......</div>'
+        + categoryName + '</h4></div><div class="container subSubInt-1 panel panel-default"><h4 class="text-center panel-heading">课程简介</h4><div class="panel-body"><pre>'
+        + categoryDescription + '</pre></div></div><div class="container subSubInt-2" onclick="audioplay()"><h4>点击收听<span class="glyphicon glyphicon-volume-down pull-right"></span>'
+        + '<audio class="audio" src="' + jsonData.dataValue[0].URL+ '">请使用微信内浏览器加载页面</audio></h4></div><div class="well container" id="courseDescription"><pre>' + jsonData.dataValue[0].Description + '</pre></div>'
         + '<div class="container"><div class="interface-title-container subSubInt-img"></div></div>');
     $("body").append(title);
 }

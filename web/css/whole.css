@@ -2,16 +2,16 @@ body {
     font-family: Microsoft YaHei;
 }
 
-body.subIntTem, .recentCourse {
+.recentCourse {
     color: #e67817;
     /*color: #333;*/
 }
 
-body.subIntTem a {
-    color: #e67817;
-    /*color: #333;*/
-    text-decoration: underline;
-}
+/*body.subIntTem a {*/
+    /*color: #e67817;*/
+    /*!*color: #333;*!*/
+    /*text-decoration: underline;*/
+/*}*/
 
 body.signup {
     background-image: url(../images/13/bgimg.png);
@@ -21,6 +21,10 @@ body.signup {
 
 body.backstage {
     /*max-width: 800px;*/
+}
+
+a {
+    color: #333;
 }
 
 #coursePrice {
@@ -155,7 +159,6 @@ body.backstage {
 .interface-border {
     padding: 0;
     margin: 1em;
-    color: #e67817;
 }
 
 .interface-border h4 {
@@ -180,7 +183,7 @@ body.backstage {
 
 }
 
-.Activity li {
+.Activity li, .fatIntTem li {
     padding: 0;
     margin: 1em;
 }
@@ -188,19 +191,10 @@ body.backstage {
 .interface li {
     padding: 0;
     margin: 1em;
-    color: #e67817;
 }
 
 .interface li .panel-body .pull-left {
     line-height: 2;
-}
-
-.interface li .panel-body .pull-right {
-    color: #e67817;
-}
-
-.interface li .panel-body .pull-right a {
-    color: #e67817;
 }
 
 .interface li p {
@@ -213,15 +207,11 @@ body.backstage {
 
 }
 
-/*.interface .glyphicon {*/
-    /*font-size: 14px;*/
-/*}*/
-
 .interface li div p {
     display: inline-block;
 }
 
-.subIntTem h4,.recentCourse h4 {
+.subIntTem h4,.recentCourse h4,.fatIntTem h4 {
     height: 1em;
     background-color: #eeeeee;
     margin-top: 0;
@@ -238,7 +228,6 @@ body.backstage {
     padding: 1em 0;
     margin-left: 1em;
     margin-right: 1em;
-    border-bottom: 2px solid #eeeeee;
 }
 
 .subIntTem>ul>li>div .pull-left {
@@ -325,6 +314,10 @@ body.backstage .title-left {
     line-height: 2;
 }
 
+body.backstage #courseFile {
+    margin-bottom: 1em;
+}
+
 body.recentCourse .panel-body .pull-left {
     max-width: 65%;
 }
@@ -377,10 +370,46 @@ pre {
     max-width: 65%;
 }
 
-.interface pre {
+.interface pre,.recentCourse pre {
     max-width: 100%;
 }
 
 .link-margin {
     margin-top: 2em;
+}
+
+.panel-default>.panel-heading {
+    background-color: #e67817;
+    color: #fff;
+}
+
+.panel-default>.panel-body {
+    color: #333;
+}
+
+.panel-default>.panel-body {
+    color: #333;
+}
+
+.fatIntTem li {
+    color: #333;
+}
+
+.fatIntTem a {
+    color: #666;
+}
+
+.fatIntTem h4 {
+    color: #e67817;
+}
+
+.fatIntTem .panel-heading {
+    background-color: #e67817;
+    color: #fff;
+    border-color: #e67817;
+}
+
+.fatIntTem .panel-body {
+    background-color: #eee;
+    color: #666;
 }

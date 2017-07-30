@@ -40,9 +40,10 @@
         </div>
         <div class="form-group">
             <label for="courseFile">文件上传:</label>
-            <input oninput="alertLength()" type="file" id="courseFile"/>
+            <input type="file" id="courseFile"/>
+            <div class="well" id="upFileStauts">文件上传状态：0MB/0MB</div>
         </div>
-        <button type="submit" class="btn btn-default" onmouseup="insertCourse()">课程提交</button>
+        <input type="button" class="btn btn-default" onmouseup="insertCourse()" value="课程提交">
     </form>
     <form>
         <h2 class="">目录上传</h2>

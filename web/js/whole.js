@@ -159,14 +159,14 @@ function chengchuangCategoryOverride(type,ID,Name,Description,ParentID) {
 }
 
 //course get from servlet
-function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName,Price) {
+function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName,Price,URL) {
     var Course = {};
     Course.OwnerID = "";
     Course.Name = "";
     Course.Description = "";
     Course.Type = "";
     Course.Price = Price;
-    Course.URL = "";
+    Course.URL = URL;
     Course.status = "";
     Course.CourseID = CourseID;
     Course.courseType = courseType;
@@ -288,6 +288,10 @@ function getccActUserAll() {
 function createAct() {
     var actName = document.getElementById("actName").value;
     var actContent = document.getElementById("actContent").value;
+    if ((actName.length <= 0)||(actContent.length <= 0)) {
+        alert('信息不能为空！');
+        return false;
+    }
     var res = act(actName,actContent,"","","CreateccAct");
     if (res.status != 0) {
         alert("提交失败，请稍后重试！");
@@ -301,22 +305,26 @@ function createAct() {
 
 function createActUser() {
     // var actID = document.getElementById("actID");
-    var actID = 2;
+    var theRequest = getUrlParameter();
+
+    var actID = theRequest['actID'];
     var company = document.getElementById("company").value;
     var trade = document.getElementById("trade").value;
     var numbleOfPeople = document.getElementById("numberOfPeople").value;
     var linkman = document.getElementById("linkman").value;
     var phone = document.getElementById("phone").value;
     var email = document.getElementById("email").value;
-    if ((company.length <= 0)&&(trade.length <= 0)&&(numbleOfPeople.length <= 0)&&(linkman.length <= 0)&&(phone.length <= 0)&&(email.length <= 0)) {
+    if ((company.length <= 0)||(trade.length <= 0)||(numbleOfPeople.length <= 0)||(linkman.length <= 0)||(phone.length <= 0)||(email.length <= 0)) {
         alert('信息不能为空');
         return false;
     }
     var res = actUser(company,trade,numbleOfPeople,linkman,phone,email,actID,"","CreateccActUser");
     if (res.status != 0) {
-        document.write("提交失败，请稍后重试!");
+        alert("提交失败，请稍后重试!");
+        return false;
     }else {
-        document.write("提交成功");
+        alert("提交成功");
+        return true;
     }
 }
 
@@ -332,8 +340,14 @@ function jumpTo(j) {
 }
 
 //convert long creation time length to normal creation time length
-function convertCreationTimeLength(longTime) {
-    var normalTime = longTime.substr(0,19);
+function convertCreationTime(longTime) {
+    var localTimeNow =  new Date();
+    var normalGreenwichTime = longTime.substr(0,19);
+    var localTimestamp = Date.parse(normalGreenwichTime);
+    var localOffSet = localTimeNow.getTimezoneOffset() * 60000;
+    var nornalTimestamp = localTimestamp - localOffSet;
+    var normalTimeLong = new Date(nornalTimestamp);
+    var normalTime = normalTimeLong.toLocaleString();
     return normalTime;
 }
 

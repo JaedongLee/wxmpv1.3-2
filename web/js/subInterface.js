@@ -60,7 +60,7 @@ function getCourseByCategoryId() {
     if(!CategoryID) {
         document.write("无法获取到有效的CategoryID!!");
     }else {
-        var courseData = chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName);
+        var courseData = chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName,"","");
         var jsonData = {};
         jsonData.dataKey = Ary;
         jsonData.dataValue = courseData;
@@ -88,7 +88,7 @@ function createSubInterfaceView() {
         for(i=0;i<courseData.length;i++) {
             var id = "#" + CategoryID;
             var longTime = courseData[i].CreationTime;
-            var creationTime = convertCreationTimeLength(longTime);
+            var creationTime = convertCreationTime(longTime);
             var price = parseFloat(courseData[i].Price).toFixed(2);//将数据库里传来的三位小数转换为两位小数的字符串
             var priceNum = parseFloat(price);
             var categoryPriceTemp = priceNum + categoryPrice;

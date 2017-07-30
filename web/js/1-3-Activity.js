@@ -13,9 +13,13 @@ function viewActivity() {
         $('body').append(ul);
         for (var i=0;i<actListDate.length;i++) {
             var actContent = actListDate[i].ActContent/*.replace("↵","</div><div>")*/;
-            var actContentOmit = actListDate[i].ActContent.substr(0,12) + "......";
+            if (actContent.length <= 12) {
+                var actContentOmit = actContent;
+            }else  {
+                var actContentOmit = actListDate[i].ActContent.substr(0,12) + "......";
+            }
             var content = $('<li class="panel panel-default"><div class="panel-heading clearfix"><div class="pull-left">'
-                + actListDate[i].ccActName + '</div><button class="btn btn-default btn-sm pull-right" onclick="jumpToSignUp()" id=act"'
+                + actListDate[i].ccActName + '</div><button class="btn btn-default btn-sm pull-right" onclick="jumpToSignUp()" id="act'
                 + actListDate[i].ID + '">点击报名</button></div><div class="panel-body"><div class="pull-left">' + actContentOmit +
                 '</div><button class="btn btn-default btn-sm pull-right" onclick="showContent()">查看详情</button></div><div class="panel-body" hidden="hidden"><pre>'+ actContent + '</pre></div></li>');
             $('ul').append(content);
@@ -26,7 +30,8 @@ function viewActivity() {
 }
 
 function jumpToSignUp() {
-    var actID = event.target.id;
+    var actIDLong = event.target.id;
+    var actID = actIDLong.substr(3);
     var actName = event.target.previousSibling.textContent;
     var link = "./1-3/1-3-1-SignUp.html?actID=" + actID + "&actName=" + actName;
     window.location.assign(link);

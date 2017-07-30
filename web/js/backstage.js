@@ -19,11 +19,11 @@ function getCategoryAll() {
     var description = "";
     var parentID = "";
     var categoryData = chengchuangCategory(type,id,name,description,parentID);
-    return categoryData;    
+    return categoryData;
 }
 
 function getCourseAll() {
-    var courseData = chengChuangCourse("getCourseAll","","","","","","","");
+    var courseData = chengChuangCourse("getCourseAll","","","","","","","","","");
     return courseData;
 }
 
@@ -40,12 +40,14 @@ function createBackstageListView() {
             $("body").append(title);
             for(j=0;j<categoryData.length;j++) {
                 if(categoryData[i].categoryID == categoryData[j].parentID) {
+                    sessionStorage['fatherCate' + categoryData[j].categoryID] = true;
                     //var subTitle  = $('<h3>警告警告！</h3>');
                     var subTitle = $('<div ' + 'id="subTitle' + categoryData[j].categoryID + '"><div><h2 class="text-center text-success">' + categoryData[j].categoryID + '. ' + categoryData[j].categoryName + '</h2></div></div>');
                     var id = "#title" + categoryData[i].categoryID;
                     $(id).append(subTitle);
                     for(m=j;m<categoryData.length;m++) {
                         if(categoryData[j].categoryID == categoryData[m].parentID) {
+                            sessionStorage['childCate' + categoryData[m].categoryID] = true;
                             var subSubTitle = $('<div class="clearfix"><div class="course-style  panel panel-default" ' + 'id="subSubTitle' + categoryData[m].categoryID + '"><div class="clearfix panel-heading"><div class="text-primary pull-left cursor-keep title-left">'
                                 + '<strong>' + categoryData[m].categoryID +
                                 '.' + categoryData[m].categoryName + '</strong>' + '</div><button class="btn btn-default pull-right" onclick="deleteCategoryByCategoryID()">删除子目录</button></div></div></div>')
@@ -71,8 +73,8 @@ function createBackstageListView() {
 function uploadFile() {
     let files = document.getElementById('courseFile').files;
     AWS.config.update({
-        accessKeyId: 'AKIAOKTL25RKYPCE7SIA',
-        secretAccessKey: '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',
+        accessKeyId: 'AKIAOPNEM3X2HTC5EG6Q',
+        secretAccessKey: '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',
         region: 'cn-north-1'
     });
     let s3 = new AWS.S3();
@@ -80,8 +82,9 @@ function uploadFile() {
     let bucket = 'wx-mp-chengchuang';
     for (let i = 0; i < files.length; i++) {
         let file = files[i];
-        let blob = new Blob([file]); 
+        let blob = new Blob([file]);
         let params = {
+            ACL: "public-read",
             Bucket: bucket,
             Key: prefix + files[i].name,
             Body: blob,
@@ -94,16 +97,31 @@ function uploadFile() {
                 console.log(data);           // successful response
             }
         });
+        s3.upload(params).on('httpUploadProgress',function (evt) {
+            $('#upFileStauts').text('文件上传状态：' + ((evt.loaded) / 1048576).toFixed(2) + 'MB/' + ((evt.total) / 1048576).toFixed(2) + 'MB');
+            if (evt.loaded == evt.total) {
+                $('#upFileStauts').text('文件上传状态：' + ((evt.loaded) / 1048576).toFixed(2) + 'MB/' + ((evt.total) / 1048576).toFixed(2) + 'MB ' + ' 文件上传成功');
+                window.location.reload();
+            }
+        }).send(function(err,data) { console.log(err,data) });
     }
 }
 
-//https://s3.cn-north-1.amazonaws.com.cn/wx-mp-chengchuang/audio/2017-06-16 〖管理解析〗KPI细说——计划准确率.mp3 
+//https://s3.cn-north-1.amazonaws.com.cn/wx-mp-chengchuang/audio/2017-06-16 〖管理解析〗KPI细说——计划准确率.mp3
 //添加新课程
 function insertCourse() {
     //var id = document.getElementById("up-id").value;
     var courseName = document.getElementById("courseName").value;
+    if (courseName.length <= 0) {
+        alert("课程名不能为空");
+        return false;
+    }
     var courseDescription = document.getElementById("courseDescription").value;
     var categoryID = document.getElementById("categoryID").value;
+    if (!sessionStorage['childCate' + categoryID]) {
+        alert("请输入有效子目录编号！");
+        return false;
+    }
     var categoryIDInt = parseInt(categoryID);
     if (categoryIDInt<19||isNaN(categoryIDInt)) {
         alert("请输入合法的子目录编号（子目录编号应不小于19）！");
@@ -111,7 +129,7 @@ function insertCourse() {
     }
     var coursePrice = document.getElementById("coursePrice").value;
     var priceFloat = parseFloat(coursePrice);
-    if ((coursePrice == null)||(coursePrice == "")) {
+    if ((coursePrice == null)||(coursePrice == "")||(priceFloat < 0)) {
         alert("请输入合法的价格（价格应不小于0.01元）！");
         return false;
     }
@@ -127,17 +145,24 @@ function insertCourse() {
         return false;
     }
     uploadFile();
-    courseURL = "https://s3.cn-north-1.amazonaws.com.cn/wx-mp-chengchuang/audio/" + fileName;
-    chengChuangCourse(courseType,"","",categoryID,"",courseName,courseDescription,"",coursePrice);
-
+    var courseURL = "https://s3.cn-north-1.amazonaws.com.cn/wx-mp-chengchuang/" + fileName;
+    chengChuangCourse(courseType,"","",categoryID,"",courseName,courseDescription,"",coursePrice,courseURL);
 }
 
 
 //添加新子目录
 function insertCategory() {
     var categoryName = document.getElementById("categoryName").value;
+    if (categoryName.length <= 0) {
+        alert("目录名不能为空！");
+        return false;
+    }
     var categoryDescription = document.getElementById("categoryDescription").value;
     var categoryParentID = document.getElementById("categoryParentID").value;
+    if ((categoryParentID.length <= 0)||(!sessionStorage['fatherCate' + categoryParentID])) {
+        alert("请输入有效父目录编号！");
+        return false;
+    }
     var insertCategoryRes = chengchuangCategory("createCategory","",categoryName,categoryDescription,categoryParentID);
 }
 
@@ -145,7 +170,7 @@ function insertCategory() {
 function deleteCourseByCourseID() {
     var courseStr = event.target.previousSibling.id;
     var courseID = courseStr.substr(6);
-    chengChuangCourse("deleteCourseByCourseID",courseID,"","","","","","");
+    chengChuangCourse("deleteCourseByCourseID",courseID,"","","","","","","","");
     window.location.reload();
 }
 
