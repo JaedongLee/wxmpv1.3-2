@@ -333,7 +333,11 @@ function jumpTo(j) {
     var categoryID = sessionStorage["category" + j + "categoryID"];
     var categoryName = sessionStorage["category" + j + "categoryName"];
     var categoryDescription = sessionStorage["category" + j + "categoryDescription"];
+/*
     var redirect_uri = encodeURIComponent("http://176j551f28.iask.in/pages/SubInterfaceTemplet.html?categoryID="
+        + categoryID + "&categoryName=" + categoryName + "&categoryDescription=" + categoryDescription);
+*/
+    var redirect_uri = encodeURIComponent("http://chengchuang.cn-north-1.eb.amazonaws.com.cn/pages/SubInterfaceTemplet.html?categoryID="
         + categoryID + "&categoryName=" + categoryName + "&categoryDescription=" + categoryDescription);
     var link = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx089d88a718cffb12&redirect_uri=" + redirect_uri + "&response_type=code&scope=snsapi_base#wechat_redirect";
     window.location.assign(link);

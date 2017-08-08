@@ -90,20 +90,25 @@ function uploadFile() {
             Body: blob,
             ContentLength: file.size
         };
-        s3.putObject(params, function(err, data) {
-            if (err) {
-                console.log(err, err.stack); // an error occurred
-            } else {
-                console.log(data);           // successful response
-            }
-        });
+        // s3.putObject(params, function(err, data) {
+        //     if (err) {
+        //         console.log(err, err.stack); // an error occurred
+        //     } else {
+        //         console.log(data);           // successful response
+        //     }
+        // });
         s3.upload(params).on('httpUploadProgress',function (evt) {
             $('#upFileStauts').text('文件上传状态：' + ((evt.loaded) / 1048576).toFixed(2) + 'MB/' + ((evt.total) / 1048576).toFixed(2) + 'MB');
             if (evt.loaded == evt.total) {
                 $('#upFileStauts').text('文件上传状态：' + ((evt.loaded) / 1048576).toFixed(2) + 'MB/' + ((evt.total) / 1048576).toFixed(2) + 'MB ' + ' 文件上传成功');
-                window.location.reload();
+
             }
-        }).send(function(err,data) { console.log(err,data) });
+        }).send(function(err,data) {
+            console.log("出现的错误为：" + err,data)
+            if (!err) {
+                window.location.reload();
+            };
+        });
     }
 }
 
