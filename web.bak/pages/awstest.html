@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.82.0.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="input_files" multiple />
+    <button onclick="updateFile()">上传测试</button>
+</body>
+<script type="text/javascript">
+function updateFile() {
+    let files = document.getElementById('input_files').files;
+    AWS.config.update({
+        accessKeyId: 'AKIAOKTL25RKYPCE7SIA',
+        secretAccessKey: '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',
+        region: 'cn-north-1'
+    });
+    let s3 = new AWS.S3();
+    let prefix = '';
+    let bucket = 'wx-mp-chengchuang';
+
+    for (let i = 0; i < files.length; i++) {
+    let file = files[i];
+    let blob = new Blob([file]);
+    let params = {
+        Bucket: bucket,
+        Key: prefix + files[i].name,
+        Body: blob,
+        ContentLength: file.size
+    };
+
+  s3.putObject(params, function(err, data) {
+    if (err) {
+        console.log(err, err.stack); // an error occurred
+    } else {
+        console.log(data);           // successful response
+    }
+  });
+}
+}
+</script>
+</html>

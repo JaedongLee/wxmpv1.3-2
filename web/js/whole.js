@@ -105,7 +105,7 @@ function audioplayCache() {
 }
 
 //category get from servlet
-function chengchuangCategory(type,ID,Name,Description,ParentID) {
+function chengchuangCategory(type,ID,Name,Description,ParentID,price) {
     var Category = {};
     Category.categoryID = ID;
     Category.categoryName = Name;
@@ -113,6 +113,7 @@ function chengchuangCategory(type,ID,Name,Description,ParentID) {
     Category.parentID = ParentID;
     Category.status = "";
     Category.type = type;
+    Category.price = price;
     var Categoryjson = "CTAG=settings.Category&SCOBJ=" + JSON.stringify(Category);
     var ajaxReturn;
     $.ajax({
@@ -159,13 +160,13 @@ function chengchuangCategoryOverride(type,ID,Name,Description,ParentID) {
 }
 
 //course get from servlet
-function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName,Price,URL) {
+function chengChuangCourse(type,CourseID,courseType,CategoryID,WXUsersOpenID,CourseName,CourseDescription,CategoryName,price,URL) {
     var Course = {};
     Course.OwnerID = "";
     Course.Name = "";
     Course.Description = "";
     Course.Type = "";
-    Course.Price = Price;
+    Course.Price = price;
     Course.URL = URL;
     Course.status = "";
     Course.CourseID = CourseID;
@@ -267,12 +268,18 @@ function actUser(company,trade,numberOfPeople,linkman,phone,email,actID,status,t
 }
 
 function getCategoryByCategoryID(categoryID) {
-    var category = chengchuangCategoryOverride("getCategoryByCategoryID",categoryID,"","","")
+    var category = chengchuangCategoryOverride("getCategoryByCategoryID",categoryID,"","","");
     sessionStorage["category" + categoryID + "categoryID"] = category.categoryID;
     sessionStorage["category" + categoryID + "categoryName"] = category.categoryName;
     sessionStorage["category" + categoryID + "categoryDescription"] = category.categoryDescription;
     return category;
 
+}
+
+//通过目录ID获取目录但不缓存
+function getCategoryByCategoryIDWithNoStorage(categoryID) {
+    var category = chengchuangCategoryOverride("getCategoryByCategoryID",categoryID,"","","");
+    return category;
 }
 
 function getccActAll() {
@@ -383,3 +390,4 @@ function alertLength() {
         alert("输入字符不能超过规定长度");
     }
 }
+

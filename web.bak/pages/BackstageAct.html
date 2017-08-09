@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/jquery-3.2.1.js"></script>
+    <!--<script src="../js/bootstrap.min.js"></script>-->
+    <script src="../js/aws-sdk-2.82.0.min.js"></script>
+    <script src="../js/whole.js"></script>
+    <script src="../js/backstageAct.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/whole.css">
+    <title>承创活动管理后台</title>
+</head>
+<body class="backstage">
+    <div class="col-sm-4">
+        <form>
+            <div class="clearfix">
+                <h2 class="pull-left">活动创建</h2>
+                <a href="./BackstageInsertCourse.html" class="pull-right btn btn-default link-margin" target="_blank">课程管理</a>
+            </div>
+            <div class="form-group">
+                <label for="actName">活动名称:</label>
+                <input oninput="alertLength()" maxlength="100" type="text" class="form-control" id="actName" placeholder="输入活动名称" required="required">
+            </div>
+            <div class="form-group">
+                <label for="actContent">活动内容:</label>
+                <!--<input type="text" class="form-control" id="actContent" placeholder="输入活动内容" required="required">-->
+                <textarea oninput="alertLength()" maxlength="1000" rows="4" wrap="hard" class="form-control" id="actContent" placeholder="输入活动内容" required="required"></textarea>
+            </div>
+            <button type="submit" class="btn btn-default" onmouseup="createAct()">活动发布</button>
+        </form>
+    </div>
+</body>
+</html>

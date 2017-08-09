@@ -59,10 +59,17 @@
         <div class="form-group">
             <label for="categoryParentID">父目录编号:</label>
             <input type="number" required="required" class="form-control" id="categoryParentID" placeholder="输入父目录编号" />
-        </div>
-        <button type="submit" class="btn btn-default" onmouseup="insertCategory()">目录提交</button>
+        </div> 
+              <label for="categoryPrice">价格:</label>
+        <div class="form-group clearfix">
+            <input onkeyup="value=value.replace(/[^\d.]/g,'')" required="required" class="form-control pull-left" id="categoryPrice" placeholder="输入价格"/>
+            </div>
+        <button type="submit" class="btn btn-default" onmouseup="insertCategory()">目录提交</button> <br>
+    
+       
     </form>
 
     </div>
+    <!--<button class="btn btn-default" type="button" onclick="test()">test</button>-->
 </body>
 </html>

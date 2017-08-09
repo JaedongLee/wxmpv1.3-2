@@ -168,7 +168,8 @@ function insertCategory() {
         alert("请输入有效父目录编号！");
         return false;
     }
-    var insertCategoryRes = chengchuangCategory("createCategory","",categoryName,categoryDescription,categoryParentID);
+    var categoryPrice = document.getElementById("categoryPrice").value;
+    var insertCategoryRes = chengchuangCategory("createCategory","",categoryName,categoryDescription,categoryParentID,categoryPrice);
 }
 
 //通过课程ID删除课程
@@ -192,3 +193,8 @@ function setFreeCourse() {
     coursePrice.setAttribute("readonly","readonly");
     coursePrice.value = 0;
 }
+
+// function test() {
+//     var b = "1174"
+//     var a = getCategoryByCategoryIDWithNoStorage(b)
+// }

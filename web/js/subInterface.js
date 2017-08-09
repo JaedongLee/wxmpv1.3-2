@@ -20,6 +20,7 @@ addLoadEvent(getCourseByCategoryId);
 addLoadEvent(createSubInterfaceView);
 
 addLoadEvent(alertTest);
+
 //
 // window.onunload = function () {
 //     sessionStorage.reloadTimes = 0;
@@ -37,6 +38,7 @@ function getUrlParameterConfig() {
     var categoryID = Request['categoryID'];
     var categoryName = Request['categoryName'];
     var categoryDescription = Request['categoryDescription'];
+    var categoryPrice=Request['categoryPrice'];
     var code = Request['code'];
     ary[0] = categoryID;
     ary[1] = categoryName;
@@ -53,6 +55,8 @@ function getCourseByCategoryId() {
     var courseType = "";
     var Ary = getUrlParameterConfig();//get array from function getUrlParameterConfig()
     var CategoryID = Ary[0];
+    var category = getCategoryByCategoryIDWithNoStorage(CategoryID);
+    var categoryPrice = category.price;
     var WXUsersOpenID = "";
     var CourseName = "";
     var CourseDescription = "";
@@ -64,6 +68,7 @@ function getCourseByCategoryId() {
         var jsonData = {};
         jsonData.dataKey = Ary;
         jsonData.dataValue = courseData;
+        jsonData.dataPrice = categoryPrice;
         return jsonData;
     }
 }
@@ -72,8 +77,8 @@ function getCourseByCategoryId() {
 function createSubInterfaceView() {
     var jsonData = getCourseByCategoryId();
     var courseData = jsonData.dataValue;
-    var categoryPrice = parseFloat(0.00);
-    var categoryPriceDiscount;
+    var categoryPrice = parseFloat(jsonData.dataPrice).toFixed(2);
+    var categoryPriceall;
     var CategoryID = jsonData.dataKey[0];
     var CategoryName = jsonData.dataKey[1];
     var CategoryDescription = jsonData.dataKey[2];
@@ -83,15 +88,18 @@ function createSubInterfaceView() {
     if(jsonData.dataKey[0]) {
         var title = $('<div class="interface-title-container"><img src="../images/interface/2.png" alt="1"><h3 class="interface-title">' + CategoryName +
         '</h3></div><div class="container interface-border panel panel-default"><div class="panel-heading"><h4>课程简介</h4></div><div class="panel-body"><pre>' + CategoryDescription +
-        '</pre></div>'+ '<div class="panel-footer clearfix"><p class="pull-left">价格为：<span id="categoryPrice"></span></p><button onclick="categoryPay()" class="pull-right btn btn-default" id="category'+ CategoryID +'">购买总课程8折优惠</button></div>' +'</div><ul class="list-unstyled" id="' + CategoryID + '"><h4 class="container">收听列表</h4></ul>');
+/*        '</pre></div>'+ '<div class="panel-footer clearfix"><p class="pull-left">价格为：<span id="categoryPrice"></span></p><button onclick="categoryPay()" class="pull-right btn btn-default" id="category'+ CategoryID +'">购买总课程8折优惠</button></div>' +'</div><ul class="list-unstyled" id="' + CategoryID + '"><h4 class="container">收听列表</h4></ul>');*/
+        '</pre></div>'+ '<div class="panel-footer clearfix"><p class="pull-left">价格为：' + '<span id="categoryPrice">' + categoryPrice + '</span>' + '</p><button onclick="categoryPay()" class="pull-right btn btn-default" id="category'+ CategoryID +'">购买总课程</button></div>' +'</div><ul class="list-unstyled" id="' + CategoryID + '"><h4 class="container">收听列表</h4></ul>');
         $("body").append(title);
         for(i=0;i<courseData.length;i++) {
             var id = "#" + CategoryID;
             var longTime = courseData[i].CreationTime;
             var creationTime = convertCreationTime(longTime);
-            var price = parseFloat(courseData[i].Price).toFixed(2);//将数据库里传来的三位小数转换为两位小数的字符串
-            var priceNum = parseFloat(price);
-            var categoryPriceTemp = priceNum + categoryPrice;
+
+            var price = parseFloat(courseData[i].Price).toFixed(2);
+            // var priceNum = parseFloat(price);
+            // var categoryPriceTemp = priceNum + categoryPrice;
+
             // var categoryPriceSplit;
             // var categoryPriceTemp;
             // var priceSplit;
@@ -100,7 +108,7 @@ function createSubInterfaceView() {
             // try {priceSplit = price.toString().split(".")[1].length}catch(e){priceSplit = 0};
             // priceTemp = Math.pow(10,Math.max(categoryPriceSplit,priceSplit));
             // categoryPriceTemp = (categoryPrice*priceTemp + price*priceTemp)/priceTemp;
-            categoryPrice = parseFloat(categoryPriceTemp);
+            // categoryPrice = parseFloat(categoryPriceTemp);
             console.log("price's type is:" + typeof(price));
             var content = $('<li class="container panel panel-default" xmlns="http://www.w3.org/1999/html"><div class="panel-heading"><p>' + creationTime +
             '</p><p class="pull-right" id="priceOfCourse">价格：' + price + '元</p></div><div class="panel-body"><p class="pull-left">' + courseData[i].CourseName + '</p><button class="pull-right btn btn-default" id="course'
@@ -120,10 +128,14 @@ function createSubInterfaceView() {
     }else {
         document.write("</br>无法获取到有效的CategoryID!! 无法生成课程列表︿(￣︶￣)︿");
     }
-    categoryPriceDiscount = parseFloat(categoryPrice * 0.8).toFixed(2);
-    $("#categoryPrice").append(categoryPriceDiscount);
+/*    categoryPriceDiscount = parseFloat(categoryPrice * 0.8).toFixed(2);*/
+    // categoryPriceall = parseFloat(categoryPrice).toFixed(2);
+    // $("#categoryPrice").append(categoryPriceall);
 
 }
+
+
+
 
 //send code to get courseIDs by openid which got by code in after-end
 function sendCode() {
@@ -149,7 +161,8 @@ function sendCode() {
             var ary = jsObj.listOfChengChuangCourse;
             var openID = jsObj.WXUsersOpenID;
             localStorage.openIDSub = openID;
-            for (i = 0; i < ary.length; i++) {
+            for (i = 0; i < ary.length; i++) 
+            {
                 var courseID = "";
                 courseID = "course" + ary[i].ID;
                 var ele = document.getElementById(courseID);
@@ -227,7 +240,7 @@ function wxpay() {
                         alert("支付取消");
                     },
                     fail: function () {
-                        alert("支付失败")
+                        alert("支付失败");
                     }
                 })
             }
@@ -301,6 +314,8 @@ function categoryPay() {
                         datatype: "json",
                         processData: false,
                         asyns: false,
+
+
                         success: function (data) {
                             var jsObj = eval('(' + data + ')');
                             if (jsObj.status) {

@@ -1,0 +1,65 @@
+<!--<%@ page contentType="text/html;charset=UTF-8" language="java" %>-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../../js/jquery-3.2.1.js"></script>
+    <script src="../../../js/whole.js"></script>
+    <script src="../../../js/1-3-1-signUp.js"></script>
+    <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/whole.css">
+    <title>活动报名</title>
+</head>
+<body class="signup">
+    <form class="container container-small signup-form">
+        <ul class="list-unstyled">
+            <li class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">活动名称：</label>
+                    <input oninput="alertLength()" maxlength="50" class="form-control" type="text" id="actName" readonly="readonly" required="required"/>
+                </div>
+            </li>
+            <li class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">企业名称：</label>
+                    <input oninput="alertLength()" maxlength="50" class="form-control" type="text" id="company" required="required"/>
+                </div>
+            </li>
+            <li class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">行业：</label>
+                    <input oninput="alertLength()" maxlength="50" class="form-control" type="text" id="trade" required="required"/>
+                </div>
+            </li>
+            <li class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">参与人数：</label>
+                    <input oninput="alertLength()" maxlength="50" class="form-control" type="text" id="numberOfPeople" required="required"/>
+                </div>
+            </li>
+            <li class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">联系人：</label>
+                    <input oninput="alertLength()" maxlength="50" class="form-control" type="text" id="linkman" required="required"/>
+                </div>
+            </li>
+            <li class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">联系人电话：</label>
+                    <input oninput="alertLength()" maxlength="50" class="form-control" type="text" id="phone" required="required"/>
+                </div>
+            </li>
+            <li class="form-inline">
+                <div class="form-group">
+                    <label class="control-label">联系人邮箱：</label>
+                    <input oninput="alertLength()" maxlength="50" class="form-control" type="text" id="email" required="required"/>
+                </div>
+            </li>
+        </ul>
+        <button class="btn btn-lg btn-default center-block" type="submit" onmousedown="createActUser()">
+            <strong>立即报名</strong>
+        </button>
+    </form>
+</body>
+</html>

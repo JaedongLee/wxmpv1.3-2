@@ -73,6 +73,7 @@ function fatherInterface() {
                             sessionStorage["category" + j + "categoryID"] = ary[j].categoryID;
                             sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
                             sessionStorage["category" + j + "categoryDescription"] = ary[j].categoryDescription;
+                           /* sessionStorage["category"+j+"categoryPrice"]=ary[j].categoryPrice;*/
                             var li = $("<li><div class='panel panel-default'><div class='clearfix panel-heading'><div class=''>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span></span></div></div><div class='clearfix panel-body'><div class='pull-left'>简介：</br><pre>" +
                                 ary[j].categoryDescription + "</pre><span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
@@ -87,7 +88,7 @@ function fatherInterface() {
                 //遍历解决方案所包含的所有父课程
                 var parentCate = childJson.childJsonName2;
                 var para = parseInt(window.location.search.substr(1));//获取父课程的id
-                if(parentCate[para] != null) {
+                if(parentCate[para] != null){
                     console.log(parentCate[para]);
                     var ul = $("<ul class='list-unstyled' id=" + parentCate[para].categoryID + "><h4 class='container'><strong>" + parentCate[para].categoryName + "</strong></h4>")
                     $("body").append(ul);
@@ -118,7 +119,8 @@ function fatherInterface() {
                     $("body").append(ul);
                     //遍历所有子课程
                     for(j=0;j<ary.length;j++) {
-                        if(ary[j].parentID == parentCate[para].categoryID) {
+                        if(ary[j].parentID == parentCate[para].categoryID)
+                         {
                             var id = "#" + parentCate[para].categoryID;
                             sessionStorage["category" + j + "categoryID"] = ary[j].categoryID;
                             sessionStorage["category" + j + "categoryName"] = ary[j].categoryName;
@@ -126,7 +128,7 @@ function fatherInterface() {
                             var li = $("<li><div class='container'><div class='clearfix'><div class='pull-left'>" + ary[j].categoryName +
                                 "</div><div class='pull-right'><span></span></div></div><div class='clearfix'><br class='pull-left'>简介：</br><pre>" +
                                 ary[j].categoryDescription + "</pre><span></span></div><div class='pull-right'><a href='javascript:' onclick='jumpTo(" + j + ")' id='" +
-                                ary[j].categoryID  + "'>点击进入</a></div></div></div></li>");
+                                ary[j].categoryID + "'>点击进入</a></div></div></div></li>");
                             $(id).append(li);
                         }
                     }
